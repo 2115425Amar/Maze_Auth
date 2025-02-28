@@ -1,0 +1,11 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: Amar_Gupta
+  password: Admin@123
+  host: localhost
+
+development:
+  <<: *default
+  database: auth2

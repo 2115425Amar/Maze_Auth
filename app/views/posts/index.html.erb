@@ -1,16 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maze</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+  <button class="w3-bar-item w3-button w3-large"
+  onclick="w3_close()">
+  <nav class="flex justify-center md:py-2 mx-4">
+  <div class="flex w-full md:px-6 justify-between items-center">
+    <div class="flex gap-4 p-4 items-center md:w-1/3">
+      <img src="<%= asset_path('Vector.svg')%>" class="w-10" alt="icon">
+      <p class="text-2xl md:text-4xl font-serif font-semibold text-gray-800">Maze</p>
+    </div>
+  </div>
+</nav>
+  </button>
+  <a href="#" class="w3-bar-item w3-button">
+    <img src="<%= asset_path('dil.svg') %>" class="w-5 inline" alt="Feed Icon">
+    Feed
+  </a>
+  <a href="#" class="w3-bar-item w3-button">
+        <img src="<%= asset_path('dil.svg') %>" class="w-5 inline" alt="Feed Icon">
+    Profile</a>
+  <a href="#" class="w3-bar-item w3-button">
+        <img src="<%= asset_path('dil.svg') %>" class="w-5 inline" alt="Feed Icon">
+    Logout</a>
+</div>
 
-<body class="bg-[#F8F9FD]">
-
-<!-- NavBar -->
+<div id="main">
+<div class="">
+  <button id="openNav" class="" onclick="w3_open()">&#9776;</button>
+  <!-- NavBar -->
 <nav class="flex justify-center md:py-2 mx-4">
   <div class="flex w-full md:px-6 justify-between items-center">
     <div class="flex gap-4 p-4 items-center md:w-1/3">
@@ -24,8 +46,11 @@
     </div>
   </div>
 </nav>
+</div>
 
-<div class="bg-gray-200 p-4 m-6 rounded-xl">
+
+<div class="w3-container">
+  <div class="bg-gray-200 p-4 m-6 rounded-xl">
   <!-- Post Form -->
   <%= form_with(model: Post.new, url: posts_path, local: true) do |form| %>
     <div class="bg-white rounded-lg mt-8 mx-[2%] my-5">
@@ -138,10 +163,22 @@
     <% end %>
   </div>
 </div>
+</div>
+</div>
+
+<script>
+function w3_open() {
+  document.getElementById("main").style.marginLeft = "15%";
+  document.getElementById("mySidebar").style.width = "15%";
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("openNav").style.display = 'none';
+}
+function w3_close() {
+  document.getElementById("main").style.marginLeft = "0%";
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("openNav").style.display = "inline-block";
+}
+</script>
+
 </body>
 </html>
-
-
-
-
-

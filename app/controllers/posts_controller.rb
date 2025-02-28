@@ -40,9 +40,15 @@ class PostsController < ApplicationController
 
   private
 
+  # def set_post
+  #   @post = current_user.posts.find(params[:id])
+  # end
+
   def set_post
-    @post = current_user.posts.find(params[:id])
+    @post = current_user.posts.find_by(id: params[:id])
+    redirect_to posts_path, alert: "Post not found." if @post.nil?
   end
+
 
   def post_params
     params.require(:post).permit(:title, :description, :public)

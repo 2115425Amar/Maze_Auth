@@ -1,0 +1,35 @@
+  <!doctype html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta >
+    <title>Document</title>
+  </head>
+  <body class="">
+    <main class="w-screen h-screen bg-cover bg-center px-2" style="background-image: url(<%= asset_path('loginbg.png') %>);">
+      <nav class="flex justify-center w-full md:py-2" >
+        <div class="flex items-center gap-4 p-3 w-full md:px-6">
+          <a class="flex items-center gap-4 cursor-pointer" href="/">
+            <img src="<%= asset_path('loginicon.svg') %>" class="w-10 md:w-12">
+            <p class="text-3xl md:text-4xl font-serif font-semibold text-white">Maze</p>
+          </a>
+        </div>
+      </nav>
+      <hr class="h-[1px] bg-gradient-to-r from-[#377DFF] to-white border-0">
+      <div class="flex flex-col gap-7 md:gap-10 items-center justify-center h-[80%] text-white">
+        <h1 class=" text-4xl md:text-8xl md:px-28 text-center font-bold">Social media shared today, tomorrow or by location</h1>
+        <p class="text-lg md:text-2xl">Discover with Maze</p>
+        <div class="flex items-center gap-4">
+          <%= link_to "Create Account", "/users/sign_up" , class: "bg-[#377DFF] hover:bg-[#2b66d2] focus:border-none text-white py-2 px-3 md:px-8 rounded-lg text-lg md:text-xl font-medium hover:cursor-pointer" %>
+          <p>or</p>
+          <%= link_to "Login", "/users/sign_in" , class: "bg-gray-50 hover:bg-[#EAF4FF] text-[#377DFF] py-2 px-3 md:px-8 rounded-lg text-lg md:text-xl font-medium hover:cursor-pointer" %>
+          <%= link_to "Log out", "/users/sign_out" ,data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "bg-gray-50 hover:bg-[#EAF4FF] text-[#377DFF] py-2 px-3 md:px-8 rounded-lg text-lg md:text-xl font-medium hover:cursor-pointer" %>
+        </div>
+      </div>
+
+
+    </main>
+
+  </body>
+  </html>

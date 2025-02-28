@@ -1,0 +1,12 @@
+<h1>Edit Post</h1>
+
+<%= form_with(model: @post, local: true) do |form| %>
+  <div>
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div>
+    <%= form.submit "Update Post" %>
+  </div>
+<% end %>

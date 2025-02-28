@@ -6,4 +6,12 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :phone_number, presence: true
 
+  has_many :posts, dependent: :destroy  # Add this line
+  has_many :likes, dependent: :destroy
+
+  # Add this method
+  def name
+    "#{first_name} #{last_name}"
+  end
+
 end

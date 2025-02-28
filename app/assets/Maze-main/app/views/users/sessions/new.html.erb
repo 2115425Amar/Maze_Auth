@@ -1,0 +1,68 @@
+<main class="w-screen h-screen flex flex-col md:items-center bg-cover bg-center px-2" style="background-image: url(<%= asset_path('loginbg.png') %>);">
+  <nav class="flex justify-center w-full md:py-2" >
+    <div class="flex items-center gap-4 p-3 w-full md:px-6">
+      <a class="flex items-center gap-4 cursor-pointer" href="/">
+        <img src="<%= asset_path('loginicon.svg') %>" class="w-10 md:w-12">
+        <p class="text-3xl md:text-4xl font-serif font-semibold text-white">Maze</p>
+      </a>
+    </div>
+  </nav>
+  <hr class="h-[1px] bg-gradient-to-r from-[#377DFF] to-white border-0">  
+  <div class="flex h-[70%] px-2 md:w-[30%] md:h-[80%] justify-center items-center text-white">
+    <%# px-2 md:px-60 py-32 md:py-14 %>
+    <div class="flex flex-col w-full md:gap-2 p-4 md:py-24 md:px-20 rounded-2xl justify-center backdrop-blur-md bg-white/15  ">
+      <h1 class="text-2xl md:text-4xl font-medium">Login</h1>
+
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "flex flex-col justify-center py-4" }) do |f| %>
+        <div class="flex flex-col gap-y-2 md:gap-y-4">
+          
+          <div class="flex flex-col gap-y-3 md:justify-between">
+            <!-- Email Field -->
+            <div>
+              <%= f.label :email, "Email", class: "block text-sm md:text-base font-light" %>
+              <div class="mt-2">
+                <div class="flex items-center rounded-sm bg-white outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-[#377DFF]">
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "shrink-0 block min-w-0 grow py-1.5 px-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 md:text-lg", placeholder: "Alex@gmail.com" %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Password Field -->
+            <div>
+              <%= f.label :password, "Password", class: "block text-sm md:text-base font-light" %>
+              <div class="mt-2">
+                <div class="flex items-center rounded-sm bg-white outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-[#377DFF]">
+                  <%= f.password_field :password, autocomplete: "current-password", required: true, class: "shrink-0 block min-w-0 grow py-1.5 px-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 md:text-lg" %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Remember Me & Forgot Password -->
+          <div>
+            <div class="flex justify-between gap-2">
+              <% if devise_mapping.rememberable? %>
+                <label class="flex items-center gap-1 md:gap-2 cursor-pointer">
+                  <%= f.check_box :remember_me, class: "" %>
+                  <span class="text-xs font-light md:text-base">Remember me</span>
+                </label>
+              <% end %>
+              <p class="text-sm md:text-base font-light text-right">
+                <%= link_to "Forgot Password?", new_password_path(resource_name), class: "text-[#377DFF] font-medium" %>
+              </p>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="md:text-right">
+            <%= f.submit "Login", class: "w-full md:w-[50%] bg-[#377DFF] hover:bg-[#2b66d2] text-white py-2 md:px-8 rounded-sm text-base md:text-xl font-medium hover:cursor-pointer" %>
+          </div>
+        </div>
+      <% end %>
+
+    <p class="text-sm md:text-base font-light text-right">Don't have an account? <%= link_to "Sign up", "/users/sign_up", class:"text-[#377DFF] font-medium"%></p>
+      
+    </div>
+  </div>
+</main>

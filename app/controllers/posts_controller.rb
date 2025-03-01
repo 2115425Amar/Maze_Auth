@@ -1,20 +1,25 @@
 # app/controllers/posts_controller.rb
 class PostsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :index
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
-    @posts = current_user.posts.includes(:comments).order(created_at: :desc)
+    @posts = Post.includes(:comments).order(created_at: :desc)
   end
 
   def show
-    @post = Post.find(params[:id])
+    @post = Post.includes(:comments).find_by(id: params[:id])
+    if @post.nil?
+      redirect_to posts_path, alert: "Post not found."
+    end
   end
 
   def edit
-    @post = Post.find(params[:id])
+    @post = current_user.posts.find_by(id: params[:id])
+    if @post.nil?
+      redirect_to posts_path, alert: "You can only edit your own posts."
+    end
   end
-
 
   def create
     @post = current_user.posts.build(post_params)
@@ -40,15 +45,10 @@ class PostsController < ApplicationController
 
   private
 
-  # def set_post
-  #   @post = current_user.posts.find(params[:id])
-  # end
-
   def set_post
     @post = current_user.posts.find_by(id: params[:id])
     redirect_to posts_path, alert: "Post not found." if @post.nil?
   end
-
 
   def post_params
     params.require(:post).permit(:title, :description, :public)

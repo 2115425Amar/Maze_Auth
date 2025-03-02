@@ -6,87 +6,19 @@
 
 <body>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
-  <%# <button class="w3-bar-item w3-button w3-large" onclick="w3_close()"> %>
-  <%# </button> %>
-   <div class="">
-          <button class="w3-bar-item w3-button w3-large" onclick="w3_close()">
-            <div class="flex gap-4 p-2 items-center ">
-      <img src="<%= asset_path('Vector.svg')%>" class="w-8 md:w-10" alt="icon">
-      <p class="text-2xl md:text-4xl font-serif font-semibold text-gray-800">Maze</p>
-          </button>
-      </div>
-      <ul class="space-y-2 font-medium">
-         <li>
-            <a href="#" class="flex items-center p-2 text-black rounded-lg  bg-white hover:bg-[#377DFF]  group">
-               <svg class="shrink-0 w-5 h-5 text-black transition duration-75  group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                  <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Feed</span>
-            </a>
-         </li>
-        
-         <li>
-            <a href="#" class="flex items-center p-2 text-black rounded-lg  bg-white hover:bg-[#377DFF] group">
-               <svg class="shrink-0 w-5 h-5 text-black transition duration-75 dark:text-black group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                  <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Profile</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-black rounded-lg  bg-white hover:bg-[#377DFF] group">
-               <svg class="shrink-0 w-5 h-5 text-black transition duration-75 dark:black group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                  <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Manage Users</span>
-            </a>
-         </li>
-         
-         <li>
-            <a href="#" class="flex items-center p-2 text-black rounded-lg  bg-white hover:bg-[#377DFF] group">
-               <svg class="shrink-0 w-5 h-5 text-black transition duration-75 dark:black group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Sign In</span>
-            </a>
-         </li>
-         
-      </ul>
-   </div>
-</div>
+<%= render 'devise/shared/sidebar' %>
 
 <div id="main">
 <div class="">
   <button id="openNav" class="" onclick="w3_open()">&#9776;</button>
+
   <!-- NavBar -->
-<nav class="flex justify-center md:py-2 mx-4">
-  <div class="flex w-full md:px-6 justify-between items-center">
-    <div class="flex gap-4 p-4 items-center ">
-     <img src="<%= asset_path('Vector.svg')%>" class="w-8 md:w-10" alt="icon">  
-      <p class="text-2xl md:text-4xl font-serif font-semibold text-gray-800">Maze</p>
-    </div>
-
-    <div class="flex gap-6 p-3 items-center md:w-1/2 md:border-2 border-[#3333334D] rounded-2xl">
-      <img src="<%= asset_path('search.svg')%>" class="hidden w-6" alt="icon">
-      <input class="hidden md:block  text-lg font-['Montserrat'] font-semibold text-gray-600 focus:outline-none" placeholder="Search for something here...">
-    </div>
-
-    <div class="flex gap-4 p-1 items-center md:w-[10%] md:border-2 border-[#3333334D] rounded-2xl">
-      <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
-      <div class="flex flex-col">
-        <% if current_user %>
-          <h3 class="text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h3>
-          <div class="text-sm ">Admin</div>
-        <% end %>
-      </div>
-    </div>
-
-  </div>
-</nav>
-</div>
-
-
+  <%#= render 'shared/navbar', title: 'Dashboard', search_enabled: true, user_photo: current_user.avatar_url %>
+  <%#= render 'devise/shared/navbar', title: 'Maze', search_enabled: true, user_photo: current_user.avatar.attached? ? url_for(current_user.avatar) : 'default_profile.png' %>
+  <%= render 'devise/shared/navbar',
+             title: 'Maze',
+             search_enabled: true,
+             user_photo: current_user.present? && current_user.avatar.attached? ? url_for(current_user.avatar) : 'dil.svg' %>
 
 <div class="w3-container">
   <div class="bg-gray-200 p-4 m-6 rounded-xl">
@@ -140,7 +72,7 @@
  
 <!--<hr>-->
   <!-- Post Feed -->
-  <div class="space-y-4">
+  <div class="space-y-4 border border-grey">
     <% if @posts.present? %>
       <% @posts.each do |post| %>
         <div class="mx-[2%] bg-white rounded-xl p-4 ">
@@ -182,18 +114,25 @@
         </div>
 
         <div class="flex  gap-12 py-1 border-y border-[#3333334D] mx-2">
-             <button class="text-gray-600 flex items-center">
-        <img src="<%= asset_path('dil.svg') %>" alt="Like" class="w-5 h-5 mr-1">
-        Like
-      </button>
+
+          <div class="flex  py-1  mx-2">
+            <%= button_to post_likes_path(post), method: :post, remote: true, class: "like-button", id: "like-button-#{post.id}" do %>
+              <div class="flex flex-row ">
+              <img src="<%= asset_path('dil.svg') %>" class="like-icon" data-post-id="<%= post.id %>">
+              <span>Like</span>
+              </div>
+            <% end %>
+          </div>
+
+
           <button class="text-gray-600">💬 Comment</button>
         </div>
 
 
          <%= form_with(model: [post, Comment.new], url: post_comments_path(post), local: true, class: "mt-3") do |form| %>
-          <div class="flex space-x-2 p-2 bg-gray-100 rounded-lg">
-            <%= form.text_field :content, placeholder: "Write a comment...", class: "w-[70%] flex-1 p-2 border rounded-lg focus:outline-none" %>
-             <button class="bg-[#EAF4FF] hover:bg-[#99caff] p-3 rounded-lg text-lg font-medium hover:cursor-pointer"><img src="<%= asset_path('send.svg')%>" class="w-6" alt="arrow"></>
+          <div class="flex space-x-2 p-2  rounded-lg">
+            <%= form.text_field :content, placeholder: "Write a comment...", class: "w-[70%] bg-gray-100 flex-1 p-2 border border-black rounded-lg focus:outline-none" %>
+             <button class="bg-[#EAF4FF]  hover:bg-[#99caff] p-3 rounded-lg text-lg font-medium hover:cursor-pointer"><img src="<%= asset_path('send.svg')%>" class="w-6" alt="arrow"></>
           </div>
         <% end %>
 
@@ -203,8 +142,9 @@
 
   <% if post.comments.any? %>
     <div>
-      <% post.comments.each_with_index do |comment, index| %>
-        <div x-show="expanded || <%= index < 2 %>" class="flex justify-between items-center   rounded">
+        <% post.comments.order(created_at: :desc).each_with_index do |comment, index| %>
+
+    <div x-show="expanded || <%= index < 2 %>" class="flex justify-between items-center   rounded">
           <div class="flex flex-col p-2">
           <%# <span class="text-gray-800"> %>
             <strong><%= comment.user.first_name %> <%= comment.user.last_name %></strong>
@@ -213,7 +153,8 @@
           </div>
 
           <div class="flex flex-col">
-            <span>❤️</span>
+<!--            <span>❤️</span>-->
+            <img src="<%= asset_path('dil.svg') %>" alt="Like" class="w-5 h-5 mr-1 ">
           <span class="text-sm text-gray-500"><%= time_ago_in_words(comment.created_at) %> ago</span>
           </div>
         </div>

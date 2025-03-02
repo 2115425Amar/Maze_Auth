@@ -1,0 +1,9 @@
+<%= link_to post_likes_path(post), method: :post, remote: true, class: "text-gray-600 flex items-center like-button", data: { id: post.id } do %>
+  <% if post.likes.exists?(user: current_user) %>
+    <img src="<%= asset_path('liked.svg') %>" alt="Liked" class="w-5 h-5 mr-1">
+    <span>Unlike</span>
+  <% else %>
+    <img src="<%= asset_path('dil.svg') %>" alt="Like" class="w-5 h-5 mr-1">
+    <span>Like</span>
+  <% end %>
+<% end %>

@@ -1,11 +1,20 @@
-# app/controllers/likes_controller.rb
 class LikesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    likeable = find_likeable
-    likeable.likes.create(user: current_user)
-    redirect_back(fallback_location: root_path)
+    @likeable = find_likeable
+    like = @likeable.likes.find_by(user: current_user)
+
+    if like
+      like.destroy
+    else
+      @likeable.likes.create(user: current_user)
+    end
+
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path) }
+      format.js   # This will trigger a JavaScript response
+    end
   end
 
   private
@@ -18,4 +27,3 @@ class LikesController < ApplicationController
     end
   end
 end
-

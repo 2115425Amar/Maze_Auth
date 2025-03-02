@@ -4,6 +4,11 @@ Rails.application.routes.draw do
   }
   resources :posts do
     resources :comments, only: [:create, :destroy]
+    resources :likes, only: [:create, :destroy] # Add destroy for unliking
+  end
+
+  resources :comments do
+    resources :likes, only: [:create, :destroy]
   end
   
   root 'home#landing'

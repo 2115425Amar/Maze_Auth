@@ -8,6 +8,7 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy  # Add this line
   has_many :likes, dependent: :destroy
+  has_one_attached :avatar
 
   # Add this method
   def name

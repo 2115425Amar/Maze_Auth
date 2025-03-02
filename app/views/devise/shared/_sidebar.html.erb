@@ -1,0 +1,48 @@
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+  <div class="">
+    <button class="w3-bar-item w3-button w3-large" onclick="w3_close()">
+      <div class="flex gap-4 p-2 items-center">
+        <img src="<%= asset_path('Vector.svg')%>" class="w-8 md:w-10" alt="icon">
+        <p class="text-2xl md:text-4xl font-serif font-semibold text-gray-800">Maze</p>
+      </div>
+    </button>
+  </div>
+
+  <ul class="space-y-2 font-medium">
+    <li>
+      <a href="#" class="flex items-center p-2 text-black rounded-lg bg-white hover:bg-[#377DFF] group">
+        <svg class="shrink-0 w-5 h-5 text-black transition duration-75" aria-hidden="true" fill="currentColor" viewBox="0 0 18 18">
+          <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Z"/>
+        </svg>
+        <span class="flex-1 ms-3 whitespace-nowrap">Feed</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="#" class="flex items-center p-2 text-black rounded-lg bg-white hover:bg-[#377DFF] group">
+        <svg class="shrink-0 w-5 h-5 text-black transition duration-75" aria-hidden="true" fill="currentColor" viewBox="0 0 20 18">
+          <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Z"/>
+        </svg>
+        <span class="flex-1 ms-3 whitespace-nowrap">Profile</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="#" class="flex items-center p-2 text-black rounded-lg bg-white hover:bg-[#377DFF] group">
+        <svg class="shrink-0 w-5 h-5 text-black transition duration-75" aria-hidden="true" fill="currentColor" viewBox="0 0 20 18">
+          <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Z"/>
+        </svg>
+        <span class="flex-1 ms-3 whitespace-nowrap">Manage Users</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="#" class="flex items-center p-2 text-black rounded-lg bg-white hover:bg-[#377DFF] group">
+        <svg class="shrink-0 w-5 h-5 text-black transition duration-75" aria-hidden="true" fill="none" viewBox="0 0 18 16">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
+        </svg>
+        <span class="flex-1 ms-3 whitespace-nowrap">Sign In</span>
+      </a>
+    </li>
+  </ul>
+</div>

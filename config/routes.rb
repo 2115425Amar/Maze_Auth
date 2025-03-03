@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
@@ -11,9 +12,15 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
   end
   
+  # root "home#index"
+
+  # root 'devise/sessions#new'
   root 'home#landing'
   get 'landing', to: 'home#landing'
   
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # root 'devise/sessions#new'
+
 end

@@ -1,5 +1,6 @@
 <nav class="flex justify-center md:py-2 mx-4">
   <div class="flex w-full md:px-6 justify-between items-center">
+    
     <div class="flex gap-4 p-4 items-center ">
       <img src="<%= asset_path('Vector.svg') %>" class="w-8 md:w-10" alt="icon">
       <p class="text-2xl md:text-4xl font-serif font-semibold text-gray-800"><%= title || 'Maze' %></p>
@@ -12,18 +13,20 @@
       <% end %>
     </div>
 
-    <div class="flex gap-4 p-1 items-center md:w-[10%] md:border-2 border-[#3333334D] rounded-2xl">
-      <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+    <div class="flex gap-4 p-2 items-center  md:border-2 border-[#3333334D] rounded-2xl">
 <!--      <img class="w-8 h-8 rounded-full" src="<%#= user_photo || 'earth.png' %>" alt="user photo">-->
-
 
       <div class="flex flex-col">
         <% if current_user %>
-          <h3 class="text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h3>
-          <div class="text-sm ">Admin</div>
+          <h2 class="text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h2>
+          <%# <div class="text-sm ">Admin</div> %>
+        <% else %>
+          <%= link_to 'Login', new_user_session_path, class: 'text-lg font-semibold text-blue-600' %>
         <% end %>
+        
       </div>
-    </div>
+      <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
 
+    </div>
   </div>
 </nav>

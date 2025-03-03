@@ -15,4 +15,8 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def avatar_url
+    avatar.attached? ? Rails.application.routes.url_helpers.url_for(avatar) : 'default_profile.png'
+  end
+
 end

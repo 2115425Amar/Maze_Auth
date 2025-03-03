@@ -7,7 +7,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     new_user_session_path # Redirects to the login page
   end
 
-  
 
   private
 

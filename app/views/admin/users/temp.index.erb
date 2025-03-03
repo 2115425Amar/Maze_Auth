@@ -6,21 +6,112 @@
 
 <body>
 
-<!--Sidebar-->
+<h2>List of Users</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.first_name %> <%= user.last_name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.phone_number %></td>
+        
+        <td>
+          <% if user.active? %>
+            <%= button_to "Deactivate", deactivate_admin_user_path(user), method: :post, class: "btn btn-danger" %>
+          <% else %>
+            <%= button_to "Activate", activate_admin_user_path(user), method: :post, class: "btn btn-success" %>
+          <% end %>
+          <%= button_to "Delete", admin_user_path(user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-warning" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+<!--Left Sidebar-->
 <%= render 'devise/shared/sidebar' %>
+
+<!-- Right Sidebar -->
+<div id="myRightSidebar" class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display: none; right: 0; width: 20%; position: fixed; top: 0; height: 100%; background-color: #fff; box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);">
+ 
+    <button onclick="w3_close_right()" class="text-gray-500 hover:text-gray-700">×</button>
+
+ <!--username and photo-->
+<div class="flex gap-4 items-center  rounded-2xl">
+<!--      <img class="w-8 h-8 rounded-full" src="<%#= user_photo || 'earth.png' %>" alt="user photo">-->
+      <img class="w-8 h-8 mx-2  rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+      <div class="flex flex-col ">
+        <% if current_user %>
+          <h2 class="text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h2>
+           <% if current_user.has_role?(:admin) %>
+          <div class="text-sm ">Admin</div>
+          <% end %>
+        <% else %>
+          <%= link_to 'Login', new_user_session_path, class: 'text-lg font-semibold text-blue-600' %>
+        <% end %>
+      </div>
+      <%# <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo"> %>
+</div>
+
+  <div class="flex justify-between items-center p-2 ">
+    <h3 class="text-lg font-semibold text-gray-700">Users List</h3>
+    <div>...</div>
+  </div>
+
+
+  <div class="p-4 space-y-4">
+    <% @users.each do |user| %>
+      <div class="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+              <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+
+        <span class="text-gray-800 font-medium"><%= user.first_name %> <%= user.last_name %></span>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<!-- Right Sidebar Toggle Button -->
+<button id="openRightNav" class="fixed top-4 right-4 bg-blue-600 text-white px-3 py-2 rounded-lg shadow-md" onclick="w3_open_right()">☰</button>
 
 <div id="main">
 <div class="">
   <button id="openNav" class="" onclick="w3_open()">&#9776;</button>
+   <%# <button id="openRightNav" class="" ">&#9776;</button> %>
 
-<%= render 'devise/shared/navbar', 
-      title: 'Maze', 
-      search_enabled: true, 
-      user_photo: current_user&.avatar_url %>
+
+<%# navbar %>
+<nav class="flex justify-center md:py-2 mx-4">
+  <div class="flex w-full md:px-6 justify-between items-center">
+
+    <div class="flex gap-4 p-4 items-center ">
+      <img src="<%= asset_path('Vector.svg') %>" class="w-8 md:w-10" alt="icon">
+      <p class="text-2xl md:text-4xl font-serif font-semibold text-gray-800">Maze</p>
+    </div>
+
+    <div class="flex gap-6 p-3 items-center md:w-1/2 md:border-2 border-[#3333334D] rounded-2xl">
+      
+        <img src="<%= asset_path('search.svg') %>" class="w-6" alt="icon">
+        <input class="text-lg font-['Montserrat'] font-semibold text-gray-600 focus:outline-none" placeholder="Search for something here...">
+     
+    </div>
+
+   
+</nav>
 
 
 <div class="w3-container">
-  <div class="bg-gray-200 p-4 m-6 rounded-xl">
+  <div class="bg-gray-200 p-4 m-6 rounded-xl  ">
 
  <!-- Post Section -->
         <%= form_with(model: Post.new, url: posts_path, local: true) do |form| %>
@@ -98,7 +189,7 @@
                             </div>
                         </div>
                     </div>
-        </div>
+            </div>
 
         <p class="text-[#666666] mb-4 mx-2"><%= post.description %></p>
 
@@ -181,11 +272,27 @@ function w3_open() {
   document.getElementById("mySidebar").style.display = "block";
   document.getElementById("openNav").style.display = 'none';
 }
+
 function w3_close() {
   document.getElementById("main").style.marginLeft = "0%";
   document.getElementById("mySidebar").style.display = "none";
   document.getElementById("openNav").style.display = "inline-block";
 }
+
+// Right Sidebar Toggle
+function w3_open_right() {
+  document.getElementById("main").style.marginRight = "15%";
+  document.getElementById("myRightSidebar").style.width = "15%";
+  document.getElementById("myRightSidebar").style.display = "block";
+  document.getElementById("openRightNav").style.display = 'none';
+}
+
+function w3_close_right() {
+  document.getElementById("main").style.marginRight = "0%";
+  document.getElementById("myRightSidebar").style.display = "none";
+  document.getElementById("openRightNav").style.display = "inline-block";
+}
+
 </script>
 
 </body>

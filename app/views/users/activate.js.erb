@@ -1,0 +1,5 @@
+document.getElementById("user-status-<%= @user.id %>").innerHTML = `
+  <form method="post" action="<%= deactivate_user_path(@user) %>" data-remote="true">
+    <input type="submit" value="Deactivate" class="btn btn-danger">
+  </form>
+`;

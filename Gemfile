@@ -65,3 +65,6 @@ group :test do
 end
 
 gem "rolify", "~> 6.0"
+
+gem "kaminari", "~> 1.2"
+

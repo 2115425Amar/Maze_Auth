@@ -1,16 +1,17 @@
+
 <body>
 <%= render 'devise/shared/sidebar' %>
 
-<div id="main" class="flex-1 p-6 transition-all duration-300"
-       style="margin-left: <% if current_user&.admin? %>15%<% else %>0%<% end %>;
-              margin-right: <% if current_user&.admin? %>20%<% else %>0%<% end %>;">
+<div id="main">
   <div class="">
+    <button id="openNav" class="" onclick="w3_open()">&#9776;</button>
 
     <%= render 'devise/shared/navbar', 
       title: 'Maze', 
       search_enabled: true, 
       user_photo: current_user&.avatar_url %>
- <div class="w3-container">
+
+    <div class="w3-container">
       <div class="bg-gray-200 p-4 m-6 rounded-xl">
 
         <% if @post %>
@@ -104,13 +105,6 @@
   </div>
 </div>
 
-  <!-- Right Sidebar (Admin only) -->
-  <% if current_user&.admin? %>
-    <div class="fixed top-0 right-0 w-[20%] h-full bg-white shadow-lg p-4">
-      <%= render 'devise/shared/right_sidebar' %>
-    </div>
-  <% end %>
-
 <script>
 function w3_open() {
   document.getElementById("main").style.marginLeft = "15%";
@@ -123,8 +117,6 @@ function w3_close() {
   document.getElementById("mySidebar").style.display = "none";
   document.getElementById("openNav").style.display = "inline-block";
 }
-
-
 </script>
 
 </body>

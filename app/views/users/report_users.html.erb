@@ -1,0 +1,94 @@
+
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Reports</title>
+      <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+   </head>
+   <body class="bg-gray-100 m-auto">
+      <div id="main-content" class="flex-1 transition-all duration-300" style="margin-left: <% if current_user&.admin? %>15%<% else %>0%<% end %>;">
+         <nav class="flex justify-center md:py-2 mx-4">
+            <div class="flex w-full md:px-6 justify-between items-center">
+               <div class="flex gap-4 p-3 items-center">
+                  <p class="text-2xl md:text-3xl font-serif font-semibold text-gray-600">User Reports</p>
+               </div>
+               <div class="flex gap-4 p-2 items-center">
+                  <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                  <div class="flex flex-col">
+                     <% if current_user %>
+                        <h2 class="text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h2>
+                        <% if current_user.has_role?(:admin) %>
+                           <div class="text-sm">Admin</div>
+                        <% else %>
+                           <div class="text-sm">User</div>
+                        <% end %>
+                     <% end %>
+                  </div>
+               </div>
+            </div>
+         </nav>
+
+         <div class="container mx-auto p-6">
+
+
+<%# -----------------------------------------------------------------------------------------------             %>
+           
+            <div class="p-6">
+  <div class="grid grid-cols-3 gap-6">
+
+
+    <!-- All Users Report -->
+    <div class="bg-white shadow-md rounded-lg p-6 text-center">
+      <img src="<%= asset_path('circle.svg') %>" class="w-12 mx-auto mb-4" alt="Report Icon">
+      <h2 class="text-lg font-semibold">All Users</h2>
+      <p class="text-sm text-gray-600">Posts, comments, and likes count</p>
+      <div class="mt-4">
+        <label><input type="radio" name="format1" value="excel"> Excel</label>
+        <label class="ml-2"><input type="radio" name="format1" value="csv" checked> .CSV</label>
+      </div>
+      <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Download</button>
+    </div>
+
+    <!-- Active Users Report -->
+    <div class="bg-white shadow-md rounded-lg p-6 text-center">
+      <img src="<%= asset_path('circle.svg') %>" class="w-12 mx-auto mb-4" alt="Report Icon">
+      <h2 class="text-lg font-semibold">All Users</h2>
+      <p class="text-sm text-gray-600">Having more than 10 posts</p>
+      <div class="mt-4">
+        <label><input type="radio" name="format2" value="excel"> Excel</label>
+        <label class="ml-2"><input type="radio" name="format2" value="csv" checked> .CSV</label>
+      </div>
+      <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Download</button>
+    </div>
+
+    <!-- Post-wise Report -->
+    <div class="bg-white shadow-md rounded-lg p-6 text-center">
+      <img src="<%= asset_path('circle.svg') %>" class="w-12 mx-auto mb-4" alt="Report Icon">
+      <h2 class="text-lg font-semibold">Postwise Report</h2>
+      <p class="text-sm text-gray-600">Title, description, comments, likes</p>
+      <div class="mt-4">
+        <label><input type="radio" name="format3" value="excel"> Excel</label>
+        <label class="ml-2"><input type="radio" name="format3" value="csv" checked> .CSV</label>
+      </div>
+      <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Download</button>
+    </div>
+  </div>
+
+
+</div>
+
+
+            
+         </div>
+         <div id="flash-messages" class="text-center mb-4 mx-auto w-[90%]">
+            <% if flash[:notice] %>
+               <div class="bg-green-200 text-green-800 p-2 rounded"><%= flash[:notice] %></div>
+            <% elsif flash[:alert] %>
+               <div class="bg-red-200 text-red-800 p-2 rounded"><%= flash[:alert] %></div>
+            <% end %>
+         </div>
+      </div>
+   </body>
+   </html>

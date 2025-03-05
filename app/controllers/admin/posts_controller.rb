@@ -1,29 +1,19 @@
-# app/controllers/posts_controller.rb
-class PostsController < ApplicationController
-  # before_action :authenticate_user!, except: :index
-  before_action :authenticate_user!
-  before_action :set_post, only: %i[show edit update destroy]
-  before_action :authorize_post, only: %i[show edit update destroy]
+module Admin
+  class PostsController < ApplicationController
+    before_action :authenticate_user!
+    before_action :require_admin
 
-  # def index
-  #   @posts = Post.includes(:comments).order(created_at: :desc)
-  # end
-
-  def index
-    @users = User.all  # Add this line to load users
-    if current_user.has_role?(:admin)
-      # @posts = Post.all
-      @posts = Post.includes(:user, :comments).order(created_at: :desc)
-    else
-      @posts = Post.where(public: true).or(Post.where(user: current_user)).order(created_at: :desc)end
-  end
-
-  def show
-    @post = Post.includes(:comments).find_by(id: params[:id])
-    if @post.nil?
-      redirect_to posts_path, alert: "Post not found."
+    def index
+      @users = User.all
+      @posts = Post.includes(:user, :comments, :likes).order(created_at: :desc)
+      # render 'admin/users/index
     end
-  end
+
+    def show
+      @post = Post.includes(:comments, :likes).find_by(id: params[:id])
+      redirect_to admin_posts_path, alert: "Post not found." if @post.nil?
+    end
+
 
   def edit
     @post = current_user.posts.find_by(id: params[:id])
@@ -52,6 +42,7 @@ class PostsController < ApplicationController
     end
   end
 
+  
   def destroy
     @post.destroy
     redirect_to posts_path, notice: "Post deleted."
@@ -75,10 +66,14 @@ class PostsController < ApplicationController
     end
   end
 
-# Finds the post (@post = Post.find(params[:id])).
-# Checks if the current user is authorized:
-# If the user is an admin, they can proceed.
-# If the user is the owner of the post, they can proceed.
-# Otherwise, the user is blocked and redirected to root_path with an error message.
 
+    private
+
+    def require_admin
+      unless current_user.has_role?(:admin)
+        flash[:alert] = "You are not authorized to access this page."
+        redirect_to root_path
+      end
+    end
+  end
 end

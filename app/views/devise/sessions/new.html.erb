@@ -12,30 +12,30 @@
 </head>
 
 <body class="min-h-screen text-white relative overflow-hidden font-[Montserrat]">
-<!-- Background with earth image -->
-<div style="background-image: url(<%= asset_path('earth.png') %>);" class="bg-cover h-screen">
-  <!-- Navigation Bar -->
-  <nav class="">
-    <div class="flex flex-wrap items-center justify-between mx-auto p-6">
-      <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-        <div class="bg-white rounded-lg p-1">
-          <img src="<%= asset_path('Vector.svg') %>" class="h-7" alt="Maze Logo" />
-        </div>
-        <span class="self-center text-2xl font-[Montserrat] whitespace-nowrap dark:text-white">Maze</span>
-      </a>
-    </div>
-  </nav>
+  <!-- Background with earth image -->
+  <div style="background-image: url(<%= asset_path('earth.png') %>);" class="bg-cover h-screen">
+    <!-- Navigation Bar -->
+    <nav class="">
+      <div class="flex flex-wrap items-center justify-between mx-auto p-6">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+          <div class="bg-white rounded-lg p-1">
+            <img src="<%= asset_path('Vector.svg') %>" class="h-7" alt="Maze Logo" />
+          </div>
+          <span class="self-center text-2xl font-[Montserrat] whitespace-nowrap dark:text-white">Maze</span>
+        </a>
+      </div>
+    </nav>
 
-  <hr>
+    <hr>
 
-  <!-- Main Content - Login Card -->
-  <div class="flex justify-center items-center min-h-[calc(100vh-80px)]">
-    <!-- Login form container with blur effect -->
-    <div class="backdrop-blur-md h-[550px] bg-white/15 w-[400px] rounded-xl p-8">
-      <h2 class="text-2xl font-semibold mb-6">Login</h2>
+    <!-- Main Content - Login Card -->
+    <div class="flex justify-center items-center min-h-[calc(100vh-80px)]">
+      <!-- Login form container with blur effect -->
+      <div class="backdrop-blur-md h-[550px] bg-white/15 w-[400px] rounded-xl p-8">
+        <h2 class="text-2xl font-semibold mb-6">Login</h2>
 
-      <!-- Devise Login Form -->
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+        <!-- Devise Login Form -->
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4" }) do |f| %>
 
         <!-- Email field -->
         <div>
@@ -61,29 +61,22 @@
 
         <!-- Submit button -->
         <%= f.submit "Login", class: "w-[50%] py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white transition-colors mt-6" %>
-      <% end %>
+        <% end %>
 
-      <!-- Forgot password & Sign up links -->
-      <p class="mt-4 text-sm">
-        <a href="<%= new_user_password_path %>" class="text-blue-400 hover:text-blue-600">Forgot your password?</a>
-      </p>
-      <p class="mt-2 text-sm">
-        Don't have an account?
-        <a href="<%= new_user_registration_path %>" class="text-blue-400 hover:text-blue-600">Sign up</a>
-      </p>
+        <!-- Forgot password & Sign up links -->
+        <p class="mt-4 text-sm">
+          <a href="<%= new_user_password_path %>" class="text-blue-400 hover:text-blue-600">Forgot your password?</a>
+        </p>
+        <p class="mt-2 text-sm">
+          Don't have an account?
+          <a href="<%= new_user_registration_path %>" class="text-blue-400 hover:text-blue-600">Sign up</a>
+        </p>
+      </div>
     </div>
   </div>
-</div>
 </body>
 
 </html>
-
-
-
-
-
-
-
 
 
 

@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_one_attached :avatar
 
+  # has_many :roles, dependent: :destroy   # remove this line if error
+
   after_create :assign_default_role
   # his runs after a user is created.
   # It assigns a default role (user) if the user has no roles.
@@ -33,6 +35,10 @@ class User < ApplicationRecord
 
   def active?
     active
+  end
+
+  def admin?
+    has_role?(:admin)
   end
 
 end

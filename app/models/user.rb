@@ -12,6 +12,9 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy  # Add this line
   has_many :likes, dependent: :destroy
+  # has_many :comments
+  has_many :comments, through: :posts
+
   has_one_attached :avatar
 
   # has_many :roles, dependent: :destroy   # remove this line if error

@@ -1,9 +1,14 @@
+
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :check_admin, only: [:index, :manage_users, :toggle_status, :new, :create, :report_users]
 
   def index
     @users = User.page(params[:page]).per(10)
+  end
+
+  def profile
+    @user = current_user
   end
 
   def manage_users
@@ -14,11 +19,9 @@ class UsersController < ApplicationController
     @users = User.page(params[:page]).per(10)
   end
 
-  # ✅ Allow admins to add new users
   def new
     @user = User.new
   end
-  
 
   def create
     @user = User.new(user_params)
@@ -40,7 +43,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.js   # This triggers update_status.js.erb
+      format.js
     end
   end
 
@@ -48,17 +51,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.update(active: !@user.active)
 
-    # redirect_to manage_users_path, notice: "User successfully updated."
-
     respond_to do |format|
       format.html { redirect_to manage_users_path, notice: "User successfully updated." }
-      format.js   # ✅ This will render `toggle_status.js.erb`
+      format.js
     end
-
-  end
-
-  def profile
-    @user = current_user
   end
 
   private

@@ -19,8 +19,16 @@ Rails.application.routes.draw do
     end
     collection do
       get 'manage_users'
+      # get 'download_report'
     end
   end
+
+  resources :reports, only: [:index] do
+    collection do
+      get 'download_report'
+    end
+  end
+  
   
   # /users/manage_users
 
@@ -30,7 +38,6 @@ Rails.application.routes.draw do
   get 'feed', to: 'posts#index', as: :feed
   get 'profile', to: 'users#profile'
   get 'manage_users', to: 'users#manage_users'
-  get 'reports', to: 'users#report_users'
 
   # get 'manage_users', to: 'users#index' # Admin-only
 

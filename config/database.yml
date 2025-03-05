@@ -20,8 +20,8 @@ test:
 production:
   primary:
     <<: *default
-    url: <%= ENV['DATABASE_URL'] %> # ✅ Uses the Render database URL
+    url: <%= ENV['DATABASE_URL'] %>
 
-  cable: # ✅ Fix: Add this to support Solid Cable
+  cable:  # ✅ Fix: This is required for Solid Cable or ActionCable
     adapter: postgresql
-    url: <%= ENV['DATABASE_URL'] %> # ✅ Uses the same production database
+    url: <%= ENV['DATABASE_URL'] %>

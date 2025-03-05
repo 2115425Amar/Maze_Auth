@@ -2,20 +2,26 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: Amar_Gupta
-  password: Admin@123
-  host: localhost
 
 development:
   <<: *default
   database: auth2
+  username: Amar_Gupta
+  password: Admin@123
+  host: localhost
 
 test:
   <<: *default
   database: myapp_test
+  username: Amar_Gupta
+  password: Admin@123
+  host: localhost
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
-  url: <%= ENV['DATABASE_URL'] %>
+  primary:
+    <<: *default
+    url: <%= ENV['DATABASE_URL'] %> # ✅ Uses the Render database URL
+
+  cable: # ✅ Fix: Add this to support Solid Cable
+    adapter: postgresql
+    url: <%= ENV['DATABASE_URL'] %> # ✅ Uses the same production database

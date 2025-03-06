@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "manage_users/index"
+  get "manage_users/toggle_status"
 
   devise_for :users, controllers: { 
     registrations: 'users/registrations',
@@ -13,31 +15,44 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
   end
 
-  resources :users, only: [:index, :new, :create] do
+  # resources :users, only: [:index, :new, :create] do
+  #   member do
+  #     patch 'toggle_status' # Toggles active status
+  #   end
+  #   collection do
+  #     get 'manage_users'
+  #     # get 'download_report'
+  #   end
+  # end
+
+  resources :manage_users, only: [:index, :create, :new] do
     member do
-      patch 'toggle_status' # Toggles active status
-    end
-    collection do
-      get 'manage_users'
-      # get 'download_report'
+      patch 'toggle_status', to: 'manage_users#toggle_status'
     end
   end
+  
+  # get 'manage_users', to: 'users#manage_users'
+
+
+  
 
   resources :reports, only: [:index] do
     collection do
       get 'download_report'
     end
   end
-  
+
   
   # /users/manage_users
 
   root 'home#landing'
-
   get '/landing', to: 'home#landing'
   get 'feed', to: 'posts#index', as: :feed
   get 'profile', to: 'users#profile'
-  get 'manage_users', to: 'users#manage_users'
+  get 'test_xlsx_report', to: 'reports#test_xlsx_report'
+
+
+
 
   # get 'manage_users', to: 'users#index' # Admin-only
 

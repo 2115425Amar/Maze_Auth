@@ -25,3 +25,7 @@ production:
   cable:  # ✅ Fix: This is required for Solid Cable or ActionCable
     adapter: postgresql
     url: <%= ENV['DATABASE_URL'] %>
+
+queue:  # ✅ Fix for SolidQueue (this was missing)
+    adapter: postgresql
+    url: <%= ENV['DATABASE_URL'] %>

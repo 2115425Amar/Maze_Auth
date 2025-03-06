@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="">
+
+    <div id="main-content" class=" transition-all duration-300 " style="margin-left: <% if current_user&.admin? %>15%<% else %>0%<% end %>;">
+        <nav class="flex justify-center md:py-2 mx-4 bg-white">
+            <div class="flex w-full md:px-6 justify-between items-center">
+                <div class="flex gap-4 p-3 items-center">
+                    <p class="text-2xl md:text-3xl font-serif font-semibold text-gray-600">User Management</p>
+                </div>
+                <div class="flex gap-4 p-2 items-center">
+                    <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                    <div class="flex flex-col">
+                        <h2 class="text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h2>
+                        <div class="text-sm">Admin</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <hr>
+<%# --------------------main content------------------------ %>
+
+<!-- <div class="container mx-auto  flex justify-center items-center">
+            <%= form_with url: upload_users_manage_users_path, multipart: true, method: :post, local: true do |f| %>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <input type="file" name="Upload File" accept=".csv, .xlsx" class="border p-2 rounded w-full" required>
+                    <div class="mt-4 flex justify-center items-center">
+                        <%= f.submit "Upload", class: "bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600" %>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+-->
+
+<div class="container mx-auto mt-12 flex justify-center items-center h-80">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 border border-black">
+        <h2 class="text-xl font-semibold text-gray-700 text-center mb-4">Upload Users</h2>
+        <%= form_with url: upload_users_manage_users_path, multipart: true, method: :post, local: true do |f| %>
+            <div class="flex flex-col items-center space-y-4">
+                <input type="file" name="upload_file" accept=".csv, .xlsx" class="border p-2 rounded w-full focus:ring-2 focus:ring-blue-400" required>
+                <%= f.submit "Upload", class: "bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 w-full text-center" %>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+
+<%# ---------------------------------------------------------- %>
+        <div id="flash-messages" class="text-center mb-4 mx-auto w-[90%]">
+            <% if flash[:notice] %>
+                <div class="bg-green-200 text-green-800 p-2 rounded"><%= flash[:notice] %></div>
+            <% elsif flash[:alert] %>
+                <div class="bg-red-200 text-red-800 p-2 rounded"><%= flash[:alert] %></div>
+            <% end %>
+        </div>
+    </div>
+
+</body>
+
+</html>

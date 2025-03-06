@@ -93,6 +93,33 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.secret_key_base = ENV["SECRET_KEY_BASE"]
+   config.secret_key_base = ENV["SECRET_KEY_BASE"]
+
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  # user_name: "",
+  # password: "ENV['SENDGRID_PASSWORD']",
+  # domain: 'yourdomain.com',
+  # address: 'smtp.sendgrid.net',
+  # port: 587,
+  # authentication: :plain,
+  # enable_starttls_auto: true
+  # }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+  user_name: 'apikey',
+  password: Rails.application.credentials.dig(:sendgrid, :api_key),
+  address: 'smtp.sendgrid.net',
+  port: 587,
+  authentication: :plain,
+  enable_starttls_auto: true
+}
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 } # For development
+
+
+ 
+
+
 
 end

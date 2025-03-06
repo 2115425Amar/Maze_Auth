@@ -1,0 +1,15 @@
+<h1>Bulk User Upload Report</h1>
+
+<h2>Successfully Created Users:</h2>
+<ul>
+  <% @created_users.each do |user| %>
+    <li><%= user.email %> - <%= user.first_name %> <%= user.last_name %></li>
+  <% end %>
+</ul>
+
+<h2>Failed Users:</h2>
+<ul>
+  <% @failed_users.each do |user| %>
+    <li><%= user[:email] %>: <%= user[:errors].join(", ") %></li>
+  <% end %>
+</ul>

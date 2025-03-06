@@ -1,122 +1,192 @@
+<main class="flex flex-col gap-4 bg-gray-200 rounded-2xl px-2 py-4 md:px-8 md:py-8">
+ 
 
-<body>
-<%= render 'devise/shared/sidebar' %>
-
-<div id="main">
-  <div class="">
-    <button id="openNav" class="" onclick="w3_open()">&#9776;</button>
-
-    <%= render 'devise/shared/navbar', 
-      title: 'Maze', 
-      search_enabled: true, 
-      user_photo: current_user&.avatar_url %>
-
-    <div class="w3-container">
-      <div class="bg-gray-200 p-4 m-6 rounded-xl">
-
-        <% if @post %>
-          <div class="mx-[2%] bg-white rounded-xl p-4">
-            <div class="flex justify-between items-start mb-3 mx-2">
-              <div>
-                <h3 class="text-lg mb-1"><%= @post.user.first_name %> <%= @post.user.last_name %></h3>
-                <p class="text-sm text-[#666666]"> <%= time_ago_in_words(@post.created_at) %> ago, <%= @post.public ? "Public" : "Private" %></p>
-              </div>
-
-              <div class="flex gap-3">
-                <div class="relative inline-block gap-1" x-data="{ open: false }">
-                  <div class="w-12">
-                    <button @click="open = !open" type="button" class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 hover:cursor-pointer text-sm font-semibold text-gray-900  ring-gray-400 ring-inset hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                      <img src="<%= asset_path('dots.svg') %>" alt="">
-                    </button>
-                  </div>
-
-                  <div x-show="open" @click.outside="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 z-10 mt-2 w-32 md:w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                    <div class="py-1" role="none">
-                      <%= link_to "Edit", edit_post_path(@post), class:"block px-4 py-2 text-sm md:text-lg text-gray-700 font-semibold hover:text-indigo-800" %>
-                      <%= link_to "Delete", post_path(@post), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "block px-4 py-2 text-sm md:text-lg text-gray-700 font-semibold hover:text-indigo-800" %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p class="text-[#666666] mb-4 mx-2"><%= @post.description %></p>
-            <div class="text-sm text-[#666666] mb-3 mx-2">
-              <%= @post.likes.count %> Likes • <%= @post.comments.count %> Comments
-            </div>
-
-            <div class="flex gap-12 py-1 border-y border-[#3333334D] mx-2">
-              <button class="text-gray-600 flex items-center">
-                <img src="<%= asset_path('dil.svg') %>" alt="Like" class="w-5 h-5 mr-1">
-                Like
+  <% @posts.each do |post| %>
+    <div class="flex flex-col items-center justify-center py-4 px-4 md:px-8 md:py-8 bg-white rounded-2xl">
+      <div class="w-full flex justify-between items-center gap-4">
+        <div>
+          <h1 class="w-full font-medium text-lg md:text-2xl"><%= "#{post.user.first_name} #{post.user.last_name}" %></h1>
+        </div>
+        <div class="flex gap-3">
+          <div class="relative inline-block gap-1" x-data="{ open: false }">
+            <div class="w-12">
+              <button
+                @click="open = !open"
+                type="button"
+                class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 hover:cursor-pointer text-sm font-semibold text-gray-900 shadow-lg ring-gray-400 ring-inset hover:bg-gray-50"
+                id="menu-button"
+                aria-expanded="true"
+                aria-haspopup="true">
+                <img src="<%= asset_path('dots.svg') %>" alt="">
               </button>
-             
-              <button class="text-gray-600">💬 Comment</button>
             </div>
 
-            <%= form_with(model: [@post, Comment.new], url: post_comments_path(@post), local: true, class: "mt-3") do |form| %>
-              <div class="flex space-x-2 p-2 bg-gray-100 rounded-lg">
-                <%= form.text_field :content, placeholder: "Write a comment...", class: "w-[70%] flex-1 p-2 border rounded-lg focus:outline-none" %>
-                <button class="bg-[#EAF4FF] hover:bg-[#99caff] p-3 rounded-lg text-lg font-medium hover:cursor-pointer">
-                  <img src="<%= asset_path('send.svg')%>" class="w-6" alt="arrow">
-                </button>
-              </div>
-            <% end %>
-
-            <div class="mt-4 mx-6 space-y-4" x-data="{ expanded: false }">
-              <h1 class="w-full font-medium text-gray-400 text-lg md:text-2xl">Comments</h1>
-              <hr class="w-full border-gray-300">
-
-              <% if @post.comments.any? %>
-                <div>
-                  <% @post.comments.each_with_index do |comment, index| %>
-                    <div x-show="expanded || <%= index < 2 %>" class="flex justify-between items-center rounded">
-                      <div class="flex flex-col p-2">
-                        <strong><%= comment.user.first_name %> <%= comment.user.last_name %></strong>
-                        <div><%= comment.content %></div>
-                      </div>
-                      <div class="flex flex-col">
-                        <span> <img src="<%= asset_path('dil.svg') %>" alt="Like" class="w-5 h-5 mr-1"></span>
-                        <span class="text-sm text-gray-500"><%= time_ago_in_words(comment.created_at) %> ago</span>
-                      </div>
-                    </div>
-                  <% end %>
-                </div>
-                <hr class="w-full border-gray-300"> 
-                <% if @post.comments.count > 3 %>
-                  <div class="flex justify-end">
-                    <button @click="expanded = !expanded"
-                      class="p-1 flex items-center text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
-                      <span x-text="expanded ? 'Hide' : 'Load more'"></span>
-                    </button>
-                  </div>
+            <div
+              x-show="open"
+              @click.outside="open = false"
+              x-transition:enter="transition ease-out duration-100"
+              x-transition:enter-start="transform opacity-0 scale-95"
+              x-transition:enter-end="transform opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-75"
+              x-transition:leave-start="transform opacity-100 scale-100"
+              x-transition:leave-end="transform opacity-0 scale-95"
+              class="absolute right-0 z-10 mt-2 w-32 md:w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-none"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="menu-button"
+              tabindex="-1">
+              <div class="py-1" role="none">
+                <%= link_to "Show", "posts/#{post.id}", class: "block px-4 py-2 text-sm md:text-lg text-gray-700 font-semibold hover:text-indigo-800" %>
+                <% if post.user==current_user %>
+                  <%= link_to "Edit", "posts/#{post.id}/edit", class:"block px-4 py-2 text-sm md:text-lg text-gray-700 font-semibold hover:text-indigo-800"%>
+                  <%= link_to "Delete", "posts/#{post.id}", data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "block px-4 py-2 text-sm md:text-lg text-gray-700 font-semibold hover:text-indigo-800" %>
                 <% end %>
-              <% else %>
-                <p class="text-base font-semibold text-gray-600">No comments yet</p>
-              <% end %>
+              </div>
             </div>
           </div>
+          <%# <button class="bg-indigo-600 hover:bg-indigo-800 text-white py-1 md:py-2 px-2 md:px-8 rounded-lg text-base md:text-xl font-normal hover:cursor-pointer">Edit</button>
+          <button class="bg-indigo-600 hover:bg-indigo-800 text-white py-1 md:py-2 px-2 md:px-8 rounded-lg text-base md:text-xl font-normal hover:cursor-pointer">Delete</button> %>
+        </div>
+      </div>
+      <p class="w-full text-gray-400 text-xs md:text-sm"><%= time_ago_in_words(post.created_at) %>, <%= post.public ? "Public" : "Private" %></p>
+
+      <div class="w-full text-gray-800 text-sm md:text-lg py-8" x-data="{ expanded: false, fullText: '<%= escape_javascript(post.description) %>', isLongText: false }" x-init="isLongText = fullText.split(' ').length > 50">
+        <p class="text-gray-700">
+            <span x-text="expanded || !isLongText ? fullText : fullText.split(' ').slice(0, 50).join(' ') + '...'"></span>
+        </p>
+
+        <template x-if="isLongText">
+          <button @click="expanded = !expanded"
+            class="mt-3 text-blue-600 hover:text-blue-800 font-semibold focus:outline-none">
+            <span x-text="expanded ? 'Read less' : 'Read more'"></span>
+          </button>
+        </template>
+      </div>
+
+      <div class="w-full text-gray-400 pb-3">
+        <span class="text-sm md:text-base"><%= post.likes.count %> Likes</span>
+        <span class="text-black px-1">•</span>
+        <span class="text-sm md:text-base"><%= post.comments.count %> Comments</span>
+      </div>
+
+      <hr class="w-full border-gray-300">
+
+      <div class="w-full pl-4 md:pl-5 flex items-center gap-10">
+        <div class="flex items-center py-4">
+          <% if (like = post.likes.find_by(user: current_user)) %>
+            <%= button_to like_path(like), method: :delete, class: "size-5 flex justify-center items-center gap-x-2 text-2xl rounded-full text-red-500 hover:text-neutral-600 cursor-pointer" do %>
+              <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+              </svg>
+              <p class="text-sm md:text-lg">Like</p>
+            <% end %>
+          <% else %>
+            <%= button_to likes_path(post_id: post.id), method: :post, class: "size-5 flex justify-center items-center gap-x-2 stext-2xl rounded-full text-neutral-600 hover:text-red-500 cursor-pointer" do %>
+              <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+              </svg>
+              <p class="text-sm md:text-lg">Like</p>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="flex items-center gap-2 py-4">
+          <div class="flex text-neutral-600">
+            <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M2 2a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3.586l2.707 2.707A1 1 0 0 0 10 15v-2h4a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm0 1h12a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-5v2.5L5.5 12H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/>
+            </svg>
+          </div>
+          <p class="text-sm md:text-lg">Comment</p>
+        </div>
+      </div>
+
+      <hr class="w-full border-gray-300">
+
+      <form action="/posts/<%= post.id %>" method="post" class="w-full flex items-center gap-2 py-4">
+        <input type="text" name="data" class="w-full rounded-lg bg-gray-100 px-3 py-2 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600 sm:text-sm/6 md:text-lg" placeholder="Write a comment...">
+        <button type="submit" class="bg-[#EAF4FF] hover:bg-[#99caff] p-3 rounded-lg text-lg font-medium hover:cursor-pointer"><img src="<%= asset_path('arrow.svg')%>" class="w-6" alt="arrow"></button>
+      </form>
+
+      <h1 class="w-full font-medium text-gray-400 text-lg md:text-2xl">Comments</h1>
+      <hr class="w-full border-gray-300">
+
+      <div x-data="{ expanded: false }" class="w-full flex flex-col px-2 md:px-10 py-1 md:py-3 justify-center bg-gray-100">
+        <% if post.comments.present? %>
+          <% first_comment = post.comments.last %>
+          <!-- First Comment Always Visible -->
+          <div class="flex items-center">
+            <p class="w-full font-normal text-base md:text-2xl"><%= "#{first_comment.user.first_name} #{first_comment.user.last_name}" %></p>
+            <div class="flex items-center gap-1">
+
+              <% if (like = first_comment.likes.find_by(user: current_user)) %>
+                <%= button_to like_path(like), method: :delete, class: "size-5 flex justify-center items-center gap-x-2 text-2xl rounded-full text-red-500 hover:text-neutral-600 cursor-pointer" do %>
+                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                  </svg>
+                <% end %>
+              <% else %>
+                <%= button_to likes_path(comment_id: first_comment.id), method: :post, class: "size-5 flex justify-center items-center gap-x-2 stext-2xl rounded-full text-neutral-600 hover:text-red-500 cursor-pointer" do %>
+                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                  </svg>
+                <% end %>
+              <% end %>
+
+              <p><%= first_comment.likes.count%></p>
+            </div>
+          </div>
+          <div class="flex items-center justify-between py-1">
+            <p class="font-light text-base"><%= first_comment.data %></p>
+            <p class="font-light text-sm"><%= time_ago_in_words(first_comment.created_at) %></p>
+          </div>
+
+          <!-- Hidden Comments (Toggled by "Load More") -->
+          <div x-show="expanded" x-transition class="w-full overflow-hidden transition-[height] duration-300">
+            <% post.comments.order(created_at: :desc).offset(1).each do |comment| %> 
+            <%# <% @restcomments[post.id]&.each do |comment| %>
+              <div style="margin-top: 6px;" class="w-full flex flex-col py-1 md:py-3 justify-center bg-gray-100">
+                <div class="flex items-center ">
+                  <p class="w-full font-normal text-base md:text-2xl"><%= "#{comment.user.first_name} #{comment.user.last_name}" %></p>
+                  <div class="flex items-center gap-1">
+
+                    <% if (like = comment.likes.find_by(user: current_user)) %>
+                      <%= button_to like_path(like), method: :delete, class: "size-5 flex justify-center items-center gap-x-2 text-2xl rounded-full text-red-500 hover:text-neutral-600 cursor-pointer" do %>
+                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                        </svg>
+                      <% end %>
+                    <% else %>
+                      <%= button_to likes_path(comment_id: comment.id), method: :post, class: "size-5 flex justify-center items-center gap-x-2 stext-2xl rounded-full text-neutral-600 hover:text-red-500 cursor-pointer" do %>
+                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                        </svg>
+                      <% end %>
+                    <% end %>
+
+                    <p><%= comment.likes.count %></p>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between py-1">
+                  <p class="font-light text-base"><%= comment.data %></p>
+                  <p class="font-light text-sm"><%= time_ago_in_words(comment.created_at) %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Load More / Hide Button -->
+          <p class="w-full text-right mt-2">
+            <button @click="expanded = !expanded" class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-blue-600 decoration-2 hover:text-blue-700 hover:underline focus:outline-none focus:underline focus:text-blue-700 hover:cursor-pointer">
+              <span x-text="expanded ? 'Hide' : 'Load more'"></span>
+              <svg :class="expanded ? 'rotate-180' : ''" class="transition-transform shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </button>
+          </p>
         <% else %>
-          <p class="text-center text-red-500">Post not found.</p>
+          <p class="text-base font-semibold text-gray-600">No comments yet</p>
         <% end %>
+
       </div>
     </div>
-    
-  </div>
-</div>
-
-<script>
-function w3_open() {
-  document.getElementById("main").style.marginLeft = "15%";
-  document.getElementById("mySidebar").style.width = "15%";
-  document.getElementById("mySidebar").style.display = "block";
-  document.getElementById("openNav").style.display = 'none';
-}
-function w3_close() {
-  document.getElementById("main").style.marginLeft = "0%";
-  document.getElementById("mySidebar").style.display = "none";
-  document.getElementById("openNav").style.display = "inline-block";
-}
-</script>
-
-</body>
+  <% end %>
+</main>

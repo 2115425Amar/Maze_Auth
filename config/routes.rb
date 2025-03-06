@@ -25,9 +25,14 @@ Rails.application.routes.draw do
   #   end
   # end
 
-  resources :manage_users, only: [:index, :create, :new] do
+  resources :manage_users, only: [:index, :create, :new ] do
     member do
       patch 'toggle_status', to: 'manage_users#toggle_status'
+    end
+    collection do
+      # post 'bulk_upload'
+      get 'upload'         # Display the upload form
+      post 'upload_users'  # Handle the CSV/XLSX upload
     end
   end
   

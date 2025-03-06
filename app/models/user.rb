@@ -43,4 +43,11 @@ class User < ApplicationRecord
     has_role?(:admin)
   end
 
+after_create :send_welcome_email
+
+def send_welcome_email
+  UserMailer.welcome_email(self).deliver_later
+end
+
+
 end

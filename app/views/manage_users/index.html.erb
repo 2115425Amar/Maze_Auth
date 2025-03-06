@@ -1,6 +1,6 @@
    <!DOCTYPE html>
    <html lang="en">
-      
+
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,27 +18,26 @@
                <div class="flex gap-4 p-2 items-center">
                   <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
                   <div class="flex flex-col">
-                        <h2 class="text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h2>
-                        <div class="text-sm">Admin</div>
+                     <h2 class="text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h2>
+                     <div class="text-sm">Admin</div>
                   </div>
                </div>
             </div>
          </nav>
 
          <div class="container mx-auto p-6">
-               <h1 class="text-xl ">List of Users</h1>
+            <h1 class="text-xl">List of Users</h1>
 
-           <div class="flex justify-end space-x-2">
-
-  <%= link_to "Upload Users", new_manage_user_path, class: "bg-white text-blue-500 border border-black px-4 py-2 rounded-full hover:bg-blue-500 hover:text-white" %>
-  <%= link_to "Create User", new_manage_user_path, class: "bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600" %>
-</div>
-
+            <div class="flex justify-end space-x-2">
+             <!--  <%= link_to "Upload Users", new_manage_user_path, class: "bg-white text-blue-500 border border-black px-4 py-2 rounded-full hover:bg-blue-500 hover:text-white" %>   -->
+               <%= link_to "Upload Users", upload_manage_users_path, class: "bg-white text-blue-500 border border-black px-4 py-2 rounded-full hover:bg-blue-500 hover:text-white" %>
+               <%= link_to "Create User", new_manage_user_path, class: "bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600" %>
+            </div>
 
             <table class="min-w-full bg-white shadow-md rounded mt-4">
                <tbody class="text-gray-600 text-sm font-light">
                   <% @users.each do |user| %>
-                     <% unless user == current_user %>  <%# Exclude the current user %>
+                     <% unless user == current_user %> <%# Exclude the current user %>
                         <tr class="border-b border-gray-200 hover:bg-gray-100" id="user-<%= user.id %>">
                            <td class="py-3 px-6 text-left flex items-center text-md">
                               <div class="<%= user.active? ? 'text-green-500' : 'text-red-500' %>">●</div>
@@ -48,13 +47,12 @@
                            <td class="py-3 px-4 text-center"><%= user.email %></td>
                            <td class="py-3 px-6 text-center">
                               <%= button_to user.active? ? "Deactivate" : "Activate",
-                                #   toggle_status_user_path(user),
-                                  toggle_status_manage_user_path(user),  
-                                  method: :patch,
-                                  remote: true,
-                                  class: user.active? ?
-                                  "text-white bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-4 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" :
-                                  "text-white bg-green-400 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-4 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                 toggle_status_manage_user_path(user),
+                                 method: :patch,
+                                 remote: true,
+                                 class: user.active? ?
+                                 "text-white bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-4 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" :
+                                 "text-white bg-green-400 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-4 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                               %>
                            </td>
                            <td class="py-3 px-6 text-center">
@@ -80,7 +78,7 @@
                   <% end %>
                </tbody>
             </table>
-            <%= paginate @users %> 
+            <%= paginate @users %>
          </div>
          <div id="flash-messages" class="text-center mb-4 mx-auto w-[90%]">
             <% if flash[:notice] %>
@@ -91,4 +89,5 @@
          </div>
       </div>
    </body>
+
    </html>

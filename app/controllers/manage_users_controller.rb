@@ -7,6 +7,7 @@ class ManageUsersController < ApplicationController
     # @users = User.all
   end
 
+
   def new
     @user = User.new
   end
@@ -36,6 +37,48 @@ class ManageUsersController < ApplicationController
     redirect_to manage_users_path, notice: "User status updated!"
   end
 
+  # Display the file upload form
+  def upload
+  end
+
+  # Handle file upload and process users
+  def upload_users
+    file = params[:file]
+    success_count = 0
+    failure_count = 0
+
+    if file.present?
+      case File.extname(file.original_filename)
+      when ".csv"
+        users = CSV.read(file.path, headers: true)
+      when ".xlsx"
+        spreadsheet = Roo::Spreadsheet.open(file.path)
+        users = spreadsheet.parse(headers: true)
+      else
+        redirect_to upload_manage_users_path, alert: "Invalid file format!" and return
+      end
+
+      users.each do |row|
+        user = User.new(row.to_h)
+        user.password = SecureRandom.hex(8)
+        
+        if user.save
+          success_count += 1
+        else
+          failure_count += 1
+        end
+      end
+
+      # Send email notification to admin
+      BulkUserMailer.upload_status(current_user.email, success_count, failure_count).deliver_later
+
+      redirect_to manage_users_path, notice: "Users uploaded successfully!"
+    else
+      redirect_to upload_manage_users_path, alert: "No file selected!"
+    end
+  end
+
+
   private
 
   def user_params
@@ -50,4 +93,16 @@ class ManageUsersController < ApplicationController
   def authorize_admin
     redirect_to root_path, alert: "Access denied." unless current_user.admin?
   end
+
+  def bulk_upload
+    if params[:file].present?
+      file_path = params[:file].path
+      BulkUserUploadJob.perform_later(file_path, current_user.email)
+      redirect_to manage_users_path, notice: "Bulk upload in progress. You'll receive an email with the status."
+    else
+      redirect_to manage_users_path, alert: "Please upload a file."
+    end
+  end
+
+  
 end

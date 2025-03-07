@@ -15,15 +15,6 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
   end
 
-  # resources :users, only: [:index, :new, :create] do
-  #   member do
-  #     patch 'toggle_status' # Toggles active status
-  #   end
-  #   collection do
-  #     get 'manage_users'
-  #     # get 'download_report'
-  #   end
-  # end
 
   resources :manage_users, only: [:index, :create, :new ] do
     member do
@@ -35,10 +26,6 @@ Rails.application.routes.draw do
       post 'upload_users'  # Handle the CSV/XLSX upload
     end
   end
-  
-  # get 'manage_users', to: 'users#manage_users'
-
-
   
 
   resources :reports, only: [:index] do
@@ -56,10 +43,6 @@ Rails.application.routes.draw do
   get 'profile', to: 'users#profile'
   get 'test_xlsx_report', to: 'reports#test_xlsx_report'
 
-
-
-
-  # get 'manage_users', to: 'users#index' # Admin-only
 
 # ----------------------------------------------
   # namespace :admin do

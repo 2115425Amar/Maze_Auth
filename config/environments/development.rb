@@ -1,18 +1,9 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
-
-  # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
-
-  # Do not eager load code on boot.
   config.eager_load = false
-
-  # Show full error reports.
   config.consider_all_requests_local = true
-
-  # Enable server timing.
   config.server_timing = true
 
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
@@ -73,12 +64,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   user_name: 'apikey',
-  password: Rails.application.credentials.dig(:sendgrid, :api_key),
+  password: ENV['SENDGRID_API_KEY'], # Using environment variable
   address: 'smtp.sendgrid.net',
   port: 587,
   authentication: :plain,
   enable_starttls_auto: true
-}
-config.action_mailer.default_url_options = { host: 'localhost', port: 3000 } # For development
+  }
 
 end

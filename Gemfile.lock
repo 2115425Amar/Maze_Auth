@@ -116,6 +116,9 @@ GEM
       responders
       warden (~> 1.2.3)
     dotenv (3.1.7)
+    dotenv-rails (3.1.7)
+      dotenv (= 3.1.7)
+      railties (>= 6.1)
     drb (2.2.1)
     ed25519 (1.3.0)
     erubi (1.13.1)
@@ -317,6 +320,7 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
+    ruby_http_client (3.5.5)
     rubyzip (2.4.1)
     securerandom (0.4.1)
     selenium-webdriver (4.29.1)
@@ -325,6 +329,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sendgrid-ruby (6.7.0)
+      ruby_http_client (~> 3.4)
     sidekiq (8.0.0)
       connection_pool (>= 2.5.0)
       json (>= 2.9.0)
@@ -409,6 +415,7 @@ DEPENDENCIES
   caxlsx
   debug
   devise
+  dotenv-rails
   importmap-rails
   jbuilder
   kamal
@@ -421,6 +428,7 @@ DEPENDENCIES
   roo
   rubocop-rails-omakase
   selenium-webdriver
+  sendgrid-ruby
   sidekiq
   solid_cable
   solid_cache

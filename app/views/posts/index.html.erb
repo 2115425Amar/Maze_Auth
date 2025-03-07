@@ -9,8 +9,7 @@
 
   <!-- Main Content -->
   <div id="main-content" class="flex-1 p-6 transition-all duration-300"
-       style="
-              margin-right: <% if current_user&.admin? %>23%<% else %>0%<% end %>;">
+       style="margin-right: <% if current_user&.admin? %>23%<% else %>0%<% end %>;">
     
  
  <% if current_user.has_role?(:admin) %>
@@ -19,8 +18,14 @@
         <img src="<%= asset_path('search.svg') %>" class="w-8" alt="icon">
         <input class="text-lg font-['Montserrat'] font-semibold text-gray-600 focus:outline-none" placeholder="Search for something here...">
     </div>
-      <% end %>
-</nav>
+    </nav>
+  <% else %>
+      <%= render 'devise/shared/navbar', 
+            title: 'Maze', 
+            search_enabled: true, 
+            user_photo: current_user&.avatar_url %>
+    <% end %>
+
 
 
     <!-- Main Content -->

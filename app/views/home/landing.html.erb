@@ -7,10 +7,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen text-white relative overflow-hidden">
+<body class="text-white relative bg-cover" style="background-image: url(<%= asset_path('earth.png') %>); background-size: cover;">
 
-<div style="background-image: url(<%= asset_path('earth.png') %>);"
-     class="bg-cover h-screen">
+<div class="">
 
  <!-- Navigation Bar -->
   <nav class="">
@@ -27,8 +26,8 @@
   <hr>
 
   <!-- Hero Section -->
-  <main class="container mt-17 mx-auto px-6 pt-32 pb-32 text-center">
-    <div class=" md:text-[5.875rem] font-Poppins mb-6 leading-tight text-white">
+  <main class="container mx-auto px-6 pt-32 pb-32 text-center">
+    <div class="md:text-[3.875rem] font-Poppins mb-6 leading-tight text-white">
       Social media shared today,<br> tomorrow or by location
     </div>
 
@@ -46,7 +45,6 @@
       </button>
     </div>
   </main>
-</div>
 </div>
 
 </body>

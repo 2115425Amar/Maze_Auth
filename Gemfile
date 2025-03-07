@@ -65,12 +65,14 @@ group :test do
 end
 
 gem "rolify", "~> 6.0"
-
 gem "kaminari", "~> 1.2"
-
 gem 'caxlsx'
-
 gem 'roo'     # For parsing Excel and CSV files
-
 gem 'sidekiq' # For background jobs
+
+# for sending emails 
+gem 'sendgrid-ruby'
+
+gem 'dotenv-rails', groups: [:development, :test]
+
 

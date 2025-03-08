@@ -80,6 +80,8 @@ class ReportsController < ApplicationController
     send_data data, filename: filename, type: file_type
   end
 
+
+
   private
 
   def check_admin
@@ -103,7 +105,7 @@ class ReportsController < ApplicationController
       workbook.add_worksheet(name: "Users Report") do |sheet|
         sheet.add_row ["ID", "First Name", "Last Name", "Email", "Posts Count", "Comments Count", "Likes Count"]
         users.each do |user|
-          Rails.logger.info "Adding User: #{user.first_name} #{user.last_name} (Posts: #{user.posts_count})"
+          # Rails.logger.info "Adding User: #{user.first_name} #{user.last_name} (Posts: #{user.posts_count})"
           sheet.add_row [user.id, user.first_name, user.last_name, user.email, user.posts_count, user.comments_count, user.likes_count]
         end
       end

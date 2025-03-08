@@ -1,36 +1,27 @@
-require 'csv'
-require 'roo'
-
 class BulkUserUploadJob < ApplicationJob
   queue_as :default
 
   def perform(file_path, admin_email)
-    file = Roo::Spreadsheet.open(file_path)
-    sheet = file.sheet(0)
+    return unless File.exist?(file_path) # Ensure the file exists
 
-    created_users = []
-    failed_users = []
+    success_count = 0
+    failure_count = 0
 
-    (2..sheet.last_row).each do |i|
-      row = sheet.row(i)
-      user_data = {
-        first_name: row[0],
-        last_name: row[1],
-        email: row[2],
-        phone_number: row[3],
-        password: SecureRandom.hex(8)
-      }
+    CSV.foreach(file_path, headers: true) do |row|
+      user = User.new(row.to_h)
+      user.password = SecureRandom.hex(8)
 
-      user = User.new(user_data)
       if user.save
-        user.add_role(row[4]) if row[4].present?
-        created_users << user
+        success_count += 1
       else
-        failed_users << { email: row[2], errors: user.errors.full_messages }
+        failure_count += 1
       end
     end
 
-    # Send email to admin
-    AdminMailer.bulk_upload_status(admin_email, created_users, failed_users).deliver_now
+    # Send email notification
+    BulkUserMailer.upload_status(admin_email, success_count, failure_count).deliver_now
+
+    # Optionally, delete the file after processing
+    File.delete(file_path) if File.exist?(file_path)
   end
 end

@@ -52,9 +52,19 @@ class PostsController < ApplicationController
     end
   end
 
+  # def destroy
+  #   @post.destroy
+  #   redirect_to posts_path, notice: "Post deleted."
+  # end
+
   def destroy
     @post.destroy
-    redirect_to posts_path, notice: "Post deleted."
+    flash[:notice] = "Post deleted successfully."
+
+    respond_to do |format|
+      format.html { redirect_to posts_path, notice: "Post deleted." }
+      format.turbo_stream # This will look for a `destroy.turbo_stream.erb` file
+    end
   end
 
   private

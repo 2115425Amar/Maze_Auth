@@ -7,7 +7,6 @@ class ManageUsersController < ApplicationController
     # @users = User.all
   end
 
-
   def new
     @user = User.new
   end
@@ -26,7 +25,6 @@ class ManageUsersController < ApplicationController
   end
 
 
-
   def toggle_status
     user = User.find(params[:id])
     user.update(active: !user.active?)
@@ -42,42 +40,73 @@ class ManageUsersController < ApplicationController
   end
 
   # Handle file upload and process users
+  # def upload_users
+  #   file = params[:file]
+  #   success_count = 0
+  #   failure_count = 0
+
+  #   if file.present?
+  #     case File.extname(file.original_filename)
+  #     when ".csv"
+  #       users = CSV.read(file.path, headers: true)
+  #     when ".xlsx"
+  #       spreadsheet = Roo::Spreadsheet.open(file.path)
+  #       users = spreadsheet.parse(headers: true)
+  #     else
+  #       redirect_to upload_manage_users_path, alert: "Invalid file format!" and return
+  #     end
+
+  #     users.each do |row|
+  #       user = User.new(row.to_h)
+  #       user.password = SecureRandom.hex(8)
+        
+  #       if user.save
+  #         success_count += 1
+  #       else
+  #         failure_count += 1
+  #       end
+  #     end
+
+  #     # Send email notification to admin
+  #     BulkUserMailer.upload_status(current_user.email, success_count, failure_count).deliver_later
+
+  #     redirect_to manage_users_path, notice: "Users uploaded successfully!"
+  #   else
+  #     redirect_to upload_manage_users_path, alert: "No file selected!"
+  #   end
+  # end
+
+  # def upload_users
+  #   if params[:file].present?
+  #     file_path = params[:file].path
+  #     BulkUserUploadJob.perform_later(file_path, current_user.email) # Background job
+  #     redirect_to manage_users_path, notice: "Bulk upload in progress. You'll receive an email with the status."
+  #   else
+  #     redirect_to upload_manage_users_path, alert: "Please select a file."
+  #   end
+  # end
+
   def upload_users
     file = params[:file]
-    success_count = 0
-    failure_count = 0
-
+  
     if file.present?
-      case File.extname(file.original_filename)
-      when ".csv"
-        users = CSV.read(file.path, headers: true)
-      when ".xlsx"
-        spreadsheet = Roo::Spreadsheet.open(file.path)
-        users = spreadsheet.parse(headers: true)
-      else
-        redirect_to upload_manage_users_path, alert: "Invalid file format!" and return
+      # Save the uploaded file to a permanent location
+      filename = "uploaded_users_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
+      filepath = Rails.root.join("public", "uploads", filename)
+  
+      File.open(filepath, "wb") do |f|
+        f.write(file.read)
       end
-
-      users.each do |row|
-        user = User.new(row.to_h)
-        user.password = SecureRandom.hex(8)
-        
-        if user.save
-          success_count += 1
-        else
-          failure_count += 1
-        end
-      end
-
-      # Send email notification to admin
-      BulkUserMailer.upload_status(current_user.email, success_count, failure_count).deliver_later
-
-      redirect_to manage_users_path, notice: "Users uploaded successfully!"
+  
+      # Enqueue the Sidekiq job with the permanent file path
+      BulkUserUploadJob.perform_later(filepath.to_s, current_user.email)
+  
+      redirect_to manage_users_path, notice: "Bulk upload started! You'll receive an email with the status."
     else
-      redirect_to upload_manage_users_path, alert: "No file selected!"
+      redirect_to manage_users_path, alert: "Please upload a file."
     end
   end
-
+  
 
   private
 
@@ -104,5 +133,4 @@ class ManageUsersController < ApplicationController
     end
   end
 
-  
 end

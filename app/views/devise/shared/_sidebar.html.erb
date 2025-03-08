@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fixed Sidebar</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
 
+<body class="bg-gray-100">
     <!-- Sidebar (Fixed) -->
-    <div id="mySidebar" class="fixed left-0 top-0 h-full w-[15%] bg-white shadow-md p-4">
+    <div id="mySidebar" class="fixed left-0 top-0 h-full w-[25%] md:w-[15%] bg-white shadow-md p-4">
         <!-- Logo -->
         <div class="flex gap-4 p-2 items-center">
             <img src="<%= asset_path('Vector.svg') %>" class="w-8 md:w-10" alt="icon">
@@ -62,6 +63,7 @@
             </li>
         </ul>
     </div>
+
 
 </body>
 </html>

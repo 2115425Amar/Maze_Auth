@@ -7,13 +7,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     new_user_session_path # Redirects to the login page
   end
 
-  def create
-    super do |user|
-      if user.persisted?
-        UserMailer.welcome_email(user).deliver_now() # Uses Sidekiq for background email
-      end
-    end
-  end
+  
 
 
   private

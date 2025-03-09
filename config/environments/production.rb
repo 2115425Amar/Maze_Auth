@@ -5,7 +5,9 @@ Rails.application.configure do
 
   config.force_ssl = true
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
-  config.hosts << ENV["HOSTNAME"] if ENV["HOSTNAME"].present?
+  # config.hosts << ENV["HOSTNAME"] if ENV["HOSTNAME"].present?
+  # config.hosts << "maze-jarvis.onrender.com"
+  config.host_authorization = { exclude: ->(request) { true } }
 
   # Code is not reloaded between requests.
   config.enable_reloading = false

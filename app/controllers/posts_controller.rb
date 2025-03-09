@@ -58,8 +58,15 @@ class PostsController < ApplicationController
   # end
 
   def destroy
-    @post.destroy
-    flash[:notice] = "Post deleted successfully."
+    # @post.destroy
+    # flash[:notice] = "Post deleted successfully."
+    
+    if current_user.has_role?(:admin) || @post.user == current_user
+      @post.destroy
+      flash[:notice] = "Post deleted successfully."
+    else
+      flash[:alert] = "You are not authorized to delete this post."
+    end
 
     respond_to do |format|
       format.html { redirect_to posts_path, notice: "Post deleted." }
@@ -71,6 +78,7 @@ class PostsController < ApplicationController
 
   def set_post
     @post = current_user.posts.find_by(id: params[:id])
+    # puts "Post: #{@post.inspect}" # Debugging statement
     redirect_to posts_path, alert: "Post not found." if @post.nil?
   end
 

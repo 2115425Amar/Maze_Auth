@@ -6,6 +6,7 @@ class LikesController < ApplicationController
     like = @likeable.likes.find_by(user: current_user)
 
     if like
+      # redirect_to posts_path(@post), alert: "Failed to add comment."
       like.destroy
     else
       @likeable.likes.create(user: current_user)

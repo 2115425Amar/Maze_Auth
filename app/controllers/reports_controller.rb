@@ -90,6 +90,7 @@ class ReportsController < ApplicationController
 
   def generate_users_report(users, format)
     return unless users.present?
+    # Rails.logger.info "Generating Users Report - Total Users: #{users.count}"
 
     if format == 'csv'
       CSV.generate(headers: true) do |csv|
@@ -105,10 +106,16 @@ class ReportsController < ApplicationController
       workbook.add_worksheet(name: "Users Report") do |sheet|
         sheet.add_row ["ID", "First Name", "Last Name", "Email", "Posts Count", "Comments Count", "Likes Count"]
         users.each do |user|
-          # Rails.logger.info "Adding User: #{user.first_name} #{user.last_name} (Posts: #{user.posts_count})"
+          Rails.logger.info "Adding User: #{user.first_name} #{user.last_name} (Posts: #{user.posts_count})"
           sheet.add_row [user.id, user.first_name, user.last_name, user.email, user.posts_count, user.comments_count, user.likes_count]
         end
       end
+
+      # Save to disk for inspection
+    file_path = Rails.root.join('tmp', 'users_report.xlsx')
+    package.serialize(file_path)
+    Rails.logger.info "Excel file saved to #{file_path}"
+
 
       return package.to_stream.read
     end
@@ -135,6 +142,12 @@ class ReportsController < ApplicationController
           sheet.add_row [post.id, post.description, post.comments_count, post.likes_count]
         end
       end
+
+       # Temporarily save to disk for inspection
+    file_path = Rails.root.join('tmp', 'users_report.xlsx')
+    package.serialize(file_path)
+    Rails.logger.info "Excel file saved to #{file_path}"
+
 
       return package.to_stream.read
     end

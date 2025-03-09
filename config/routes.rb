@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
   # /users/manage_users
 
-  root 'home#landing'
+  root 'home#index'
   get '/landing', to: 'home#landing'
   get 'feed', to: 'posts#index', as: :feed
   get 'profile', to: 'users#profile'

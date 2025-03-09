@@ -13,18 +13,15 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   # has_many :comments
   has_many :comments, through: :posts
-  has_one_attached :avatar
-  attr_accessor :avatar
-  after_save :upload_avatar, if: -> { avatar.present? }
 
-
-  # has_many :roles, dependent: :destroy   # remove this line if error
-
+   # Default role assignment
   after_create :assign_default_role
-  # his runs after a user is created.
-  # It assigns a default role (user) if the user has no roles.
 
- 
+  # has_one_attached :avatar
+  # attr_accessor :avatar
+  # after_save :upload_avatar, if: -> { avatar.present? }
+
+  # Methods
   def avatar_url
     if avatar_public_id.present?
       Cloudinary::Utils.cloudinary_url(avatar_public_id, width: 150, height: 150, crop: :fill)
@@ -33,7 +30,6 @@ class User < ApplicationRecord
     end
   end
 
-  # Add this method
   def name
     "#{first_name} #{last_name}"
   end
@@ -52,8 +48,6 @@ class User < ApplicationRecord
 
 after_create :send_welcome_email
 
-
-
 private
 
 def send_welcome_email
@@ -65,6 +59,5 @@ end
     response = Cloudinary::Uploader.upload(avatar, folder: 'avatars')
     self.update_column(:avatar_public_id, response['public_id'])
   end
-
 
 end

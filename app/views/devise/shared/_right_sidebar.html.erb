@@ -4,7 +4,8 @@
     <div class="fixed top-0 right-0 w-[16%] h-full bg-white shadow-lg p-4 overflow-y-auto">
       <!-- User Info -->
       <div class="flex items-center gap-4 pb-4 border-b">
-        <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+        <%# <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo"> %>
+        <%= image_tag current_user.avatar_url, class: "w-10 h-10 rounded-full" %>
         <div>
           <h2 class="text-lg font-semibold text-gray-900"><%= current_user.first_name %> <%= current_user.last_name %></h2>
           <div class="text-sm text-gray-500">Admin</div>
@@ -17,7 +18,8 @@
           <% if @users.present? %>
             <% @users.each do |user| %>
               <div class="flex items-center space-x-3 p-2 hover:bg-[#377DFF] text-gray-800 hover:text-white  rounded-lg cursor-pointer">
-                <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+              <!--  <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">  -->
+                 <%= image_tag current_user.avatar_url, class: "w-10 h-10 rounded-full" %>
                 <span class=" font-medium"><%= user.first_name %> <%= user.last_name %></span>
               </div>
             <% end %>

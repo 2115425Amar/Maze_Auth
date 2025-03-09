@@ -1,4 +1,4 @@
-<nav class="flex justify-center md:py-2 mx-4">
+<nav class=" flex justify-center md:py-2 mx-4">
   <div class="flex w-full md:px-6 justify-between items-center">
 
     <div class="flex gap-4 p-4 items-center ">
@@ -24,7 +24,8 @@
         <%= link_to 'Login', new_user_session_path, class: 'text-lg font-semibold text-blue-600' %>
       <% end %>
       </div>
-      <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+    <!--  <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">  -->
+     <%= image_tag current_user.avatar_url, class: "w-10 h-10 rounded-full" %>
     </div>
 
   </div>

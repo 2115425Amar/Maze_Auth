@@ -70,9 +70,10 @@ gem 'caxlsx'
 gem 'roo'     # For parsing Excel and CSV files
 gem 'sidekiq' # For background jobs
 
+gem 'cloudinary'
+
 # for sending emails 
 gem 'sendgrid-ruby'
-
 gem 'dotenv-rails', groups: [:development, :test]
 
 

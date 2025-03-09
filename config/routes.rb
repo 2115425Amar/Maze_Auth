@@ -33,7 +33,6 @@ Rails.application.routes.draw do
     end
   end
 
-  
   # /users/manage_users
 
   root 'home#landing'
@@ -46,6 +45,9 @@ Rails.application.routes.draw do
   authenticate :user, ->(user) { user.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
+
+end
+
 
 
 # ----------------------------------------------
@@ -76,10 +78,8 @@ Rails.application.routes.draw do
   #   get 'posts', to: 'posts#index'
   #   get 'posts/:id', to: 'posts#show'
   
-  #   delete 'comments/:id', to: 'comments#destroy'
   # end
 
-end
 
 
 

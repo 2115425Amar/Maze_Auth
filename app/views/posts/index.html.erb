@@ -1,12 +1,13 @@
 <body class="flex">
   <!-- Sidebar Toggle Button (For Non-Admins) -->
   <% unless current_user&.admin? %>
-    <button id="sidebarToggle" class="fixed top-5 left-4 z-50 bg-blue-500 text-white px-4 py-2 rounded">☰</button>
+    <button id="sidebarToggle" class="fixed top-6 left-4 z-50 bg-blue-500 text-white px-4 py-2 rounded">☰</button>
   <% end %>
 
   <!-- Main Content -->
   <div id="main-content" class="flex-1 p-6 transition-all duration-300"
        style="margin-right: <% if current_user&.admin? %>19%<% else %>0%<% end %>;">
+
     <% if current_user.has_role?(:admin) %>
       <nav class="flex justify-center md:py-2 mx-4">
         <div class="flex gap-6 p-3 items-center md:w-full md:border-2 border-[#3333334D] rounded-2xl">
@@ -33,6 +34,7 @@
                      class: "w-full px-4 py-3 bg-[#F5F6F8] rounded-xl focus:outline-none border border-black" %>
               </div>
 
+
               <!--public/private-->
               <div class="flex flex-col justify-between p-4 border-[#3333334D] mx-6">
                 <span class="block text-base font-medium text-gray-900">Visibility</span>
@@ -50,15 +52,15 @@
               <!--media icons-->
               <div class="flex justify-between p-4 border-[#3333334D] mx-6">
                 <div class="flex gap-6 text-gray-600">
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 hover:cursor-pointer">
                     <img src="<%= asset_path('video.svg')%>" class="w-5" alt="Live Video">
                     <span class="hidden sm:inline">Video</span>
                   </div>
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 hover:cursor-pointer">
                     <img src="<%= asset_path('photo.svg')%>" class="w-5" alt="Photo/Video">
                     <span class="hidden sm:inline">Photo/Video</span>
                   </div>
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 hover:cursor-pointer">
                     <img src="<%= asset_path('feeling.svg')%>" class="w-5" alt="Feeling">
                     <span class="hidden sm:inline">Feeling</span>
                   </div>
@@ -73,10 +75,23 @@
               <% @posts.each do |post| %>
                 <div class="mx-[2%] bg-white rounded-xl p-6 shadow-md">
                   <div class="flex justify-between items-start mb-3 mx-2">
-                    <div>
-                      <h1 class="text-xl mb-1 font-semibold text-gray-800"><%= post.user.first_name %> <%= post.user.last_name %></h1>
-                      <p class="text-sm text-gray-500"><%= time_ago_in_words(post.created_at) %> ago, <%= post.public ? "Public" : "Private" %></p>
-                    </div>
+                     <div class="flex items-center hover:bg-gray-100 p-2 rounded-lg transition-colors">
+  <!-- Avatar -->
+  <%= image_tag post.user.avatar_url, class: "w-10 h-10 rounded-full mr-3 hover:opacity-80 transition-opacity" %>
+
+  <!-- Name and Timestamp -->
+  <div>
+    <h1 class="text-xl font-semibold text-gray-800 hover:text-blue-600 transition-colors">
+      <%= post.user.first_name %> <%= post.user.last_name %>
+    </h1>
+    <p class="text-sm text-gray-500">
+      <%= time_ago_in_words(post.created_at) %> ago, <%= post.public ? "Public" : "Private" %>
+    </p>
+  </div>
+</div>
+
+
+
                     <div class="flex gap-3">
                       <div class="relative inline-block gap-1" x-data="{ open: false }">
                         <div class="w-12">
@@ -94,7 +109,9 @@
                       </div>
                     </div>
                   </div>
-                  <p class="text-gray-600 mb-4 mx-2"><%= post.description %></p>
+
+                 
+                  <p class="text-gray-800 mb-4 mx-2"><%= post.description %></p>
                   <div class="flex text-sm text-gray-600 ">
                     <div class="w-1/6 p-2"><%= post.likes.count %> Likes</div>
                     <div class="w-1/4 p-2 flex item-end"><%= post.comments.count %> Comments</div>

@@ -19,4 +19,4 @@ admin = User.find_or_create_by(email: 'newadmin2@gmail.com') do |user|
 end
 
 admin.add_role(:admin) # Assuming you are using Rolify
-
+# admin.save!

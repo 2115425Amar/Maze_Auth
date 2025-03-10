@@ -10,17 +10,19 @@
 
 <body class="bg-gray-100">
     <!-- Sidebar (Fixed) -->
-    <div id="mySidebar" class="fixed left-0 top-0 h-full w-[25%] md:w-[15%] bg-white shadow-md p-4">
+    <div id="mySidebar" class="fixed left-0 top-0 h-full w-[30%] md:w-[15%] bg-white  p-4">
         <!-- Logo -->
         <div class="flex gap-4 p-2 items-center">
+            <%= link_to posts_path, class: "flex items-center gap-4" do %>
             <img src="<%= asset_path('Vector.svg') %>" class="w-8 md:w-10" alt="icon">
             <p class="text-2xl md:text-4xl font-serif font-semibold text-gray-800">Maze</p>
+            <% end %>
         </div>
 
         <!-- Menu Items -->
         <ul class="mt-6 space-y-2 font-medium">
             <li>
-                <%= link_to feed_path, class: "flex items-center p-4 text-black hover:text-white rounded-lg bg-white hover:bg-[#377DFF] group" do %>
+                <%= link_to posts_path, class: "flex items-center p-4 text-black hover:text-white rounded-lg bg-white hover:bg-[#377DFF] group" do %>
                     <svg class="shrink-0 w-5 h-5 text-black transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                         <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
                     </svg>

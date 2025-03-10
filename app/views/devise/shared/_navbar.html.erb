@@ -1,32 +1,33 @@
-<nav class=" flex justify-center md:py-2 mx-4">
-  <div class="flex w-full md:px-6 justify-between items-center">
-
-    <div class="flex gap-4 p-4 items-center ">
-      <img src="<%= asset_path('Vector.svg') %>" class="w-8 md:w-10" alt="icon">
-      <p class="text-2xl md:text-4xl font-serif font-semibold text-gray-800"><%= title || 'Maze' %></p>
-    </div>
-
-    <div class="flex gap-6 p-3 items-center md:w-1/2 md:border-2 border-[#3333334D] rounded-2xl">
-        <img src="<%= asset_path('search.svg') %>" class="w-6" alt="icon">
-        <input class="text-lg font-['Montserrat'] font-semibold text-gray-600 focus:outline-none" placeholder="Search for something here...">
-    </div>
-
-    <div class="flex gap-4 p-2 items-center  md:border-2 border-[#3333334D] rounded-2xl">
-      <div class="flex flex-col">
-      <% if current_user %>
-        <h2 class="text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h2>
-        <% if current_user.has_role?(:admin) %>
-        <div class="text-sm">Admin</div>
-        <% else %>
-        <div class="text-sm">User</div>
-        <% end %>
-      <% else %>
-        <%= link_to 'Login', new_user_session_path, class: 'text-lg font-semibold text-blue-600' %>
-      <% end %>
+<!-- Fixed Navbar -->
+<!-- Added `fixed`, `top-0`, `left-0`, `w-full`, and `z-40` to make the navbar stick to the top of the page -->
+<nav  class="fixed top-0 md:ml-0 md:w-[87%] z-40 bg-white">
+  <div class="flex justify-center py-2 mx-2">
+    <div class="flex w-full px-6 justify-between items-center">
+      <!-- Search Bar -->
+      <div class="flex gap-2 p-2 md:p-3 items-center w-[80%]  border-2 border-[#3333334D] rounded-2xl">
+        <img src="<%= asset_path('search.svg') %>" class="w-4 md:w-6" alt="icon">
+        <input class="text-sm md:text-lg font-['Montserrat'] font-semibold text-gray-600 focus:outline-none w-full" placeholder="Search for something here...">
       </div>
-    <!--  <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">  -->
-     <%= image_tag current_user.avatar_url, class: "w-10 h-10 rounded-full" %>
-    </div>
 
+      <!-- User Info -->
+      <div class="flex gap-2 md:gap-4 p-2 items-center border-2 border-[#3333334D] rounded-2xl">
+        <div class="flex flex-col">
+          <% if current_user %>
+            <!-- User Name -->
+            <h2 class="text-sm md:text-lg mb-1">
+              <%= current_user.first_name %> <%= current_user.last_name %>
+            </h2>
+            <!-- User Role -->
+            <% if current_user.has_role?(:admin) %>
+              <div class="text-[10%] md:text-sm">Admin</div>
+            <% else %>
+              <div class="text-[10%] md:text-sm">User</div>
+            <% end %>
+          <% end %>
+        </div>
+        <!-- User Avatar -->
+        <%= image_tag current_user.avatar_url, class: "w-6 h-6 md:w-10 md:h-10 rounded-full" %>
+      </div>
+    </div>
   </div>
 </nav>

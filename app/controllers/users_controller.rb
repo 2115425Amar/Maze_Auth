@@ -1,6 +1,7 @@
+  # /home/hp/Desktop/auth2/devise_auth/app/controllers/users_controller.rb
   class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_admin, only: [:index, :manage_users, :toggle_status, :new,  :report_users]
+  before_action :check_admin, only: [ :index, :manage_users, :toggle_status, :new,  :report_users ]
 
   def index
     @users = User.page(params[:page]).per(10)
@@ -44,10 +45,10 @@
   private
 
   def check_admin
-    redirect_to root_path, alert: 'Access denied' unless current_user.has_role?(:admin)
+    redirect_to root_path, alert: "Access denied" unless current_user.has_role?(:admin)
   end
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, role_ids: [])
   end
-end
+  end

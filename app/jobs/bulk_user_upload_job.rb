@@ -2,26 +2,41 @@ class BulkUserUploadJob < ApplicationJob
   queue_as :default
 
   def perform(file_path, admin_email)
-    return unless File.exist?(file_path) # Ensure the file exists
+    users = []
+    errors = []
 
-    success_count = 0
-    failure_count = 0
-
-    CSV.foreach(file_path, headers: true) do |row|
-      user = User.new(row.to_h)
-      user.password = SecureRandom.hex(8)
-
-      if user.save
-        success_count += 1
-      else
-        failure_count += 1
+    begin
+      case File.extname(file_path)
+      when ".csv"
+        CSV.foreach(file_path, headers: true) do |row|
+          user = User.new(row.to_hash.merge(password: Devise.friendly_token[0, 10]))
+          if user.save
+            users << user
+          else
+            errors << { row: row.to_h, errors: user.errors.full_messages || [] }
+          end
+        end
+      when ".xlsx"
+        xlsx = Roo::Excelx.new(file_path)
+        xlsx.each_row_streaming(offset: 1) do |row|
+          user = User.new(
+            name: row[0].value,
+            email: row[1].value,
+            phone_number: row[2].value,
+            password: Devise.friendly_token[0, 10]  # Auto-generate password
+          )
+          if user.save
+            users << user
+          else
+            errors << { row: row.map(&:value), errors: user.errors.full_messages || [] }
+          end
+        end
       end
+    rescue => e
+      errors << { error: "Exception raised: #{e.message}" }
+    ensure
+      AdminMailer.bulk_upload_status(admin_email, users.count, errors).deliver_later
+      File.delete(file_path) if File.exist?(file_path) # Clean up the file after processing
     end
-
-    # Send email notification
-    BulkUserMailer.upload_status(admin_email, success_count, failure_count).deliver_now
-
-    # Optionally, delete the file after processing
-    File.delete(file_path) if File.exist?(file_path)
   end
 end

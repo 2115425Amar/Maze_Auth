@@ -1,5 +1,5 @@
-require 'csv'
-require 'caxlsx'
+require "csv"
+require "caxlsx"
 
 class ReportsController < ApplicationController
   before_action :authenticate_user!
@@ -9,25 +9,12 @@ class ReportsController < ApplicationController
     # This will render the reports index view
   end
 
-  # def test_xlsx_report
-  #   package = Axlsx::Package.new
-  #   workbook = package.workbook
-  
-  #   workbook.add_worksheet(name: "Test Report") do |sheet|
-  #     sheet.add_row ["Column 1", "Column 2", "Column 3"]
-  #     sheet.add_row ["Data 1", "Data 2", "Data 3"]
-  #   end
-  
-  #   send_data package.to_stream.read, filename: "test.xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  # end
-  
-
   # Generates and downloads reports
   def download_report
-    format = params[:format] || 'csv'
+    format = params[:format] || "csv"
 
     case params[:report_type]
-    when 'all_users'
+    when "all_users"
       users = User.find_by_sql("
         SELECT users.id, users.first_name, users.last_name, users.email,
                COUNT(DISTINCT posts.id) AS posts_count,
@@ -42,7 +29,7 @@ class ReportsController < ApplicationController
       filename = "all_users_report.#{format}"
       data = generate_users_report(users, format)
 
-    when 'active_users'
+    when "active_users"
       users = User.find_by_sql("
         SELECT users.id, users.first_name, users.last_name, users.email,
                COUNT(DISTINCT posts.id) AS posts_count,
@@ -58,7 +45,7 @@ class ReportsController < ApplicationController
       filename = "active_users_report.#{format}"
       data = generate_users_report(users, format)
 
-    when 'postwise'
+    when "postwise"
       posts = Post.find_by_sql("
         SELECT posts.id, posts.description,
                COUNT(DISTINCT comments.id) AS comments_count,
@@ -76,7 +63,7 @@ class ReportsController < ApplicationController
       return
     end
 
-    file_type = format == 'xlsx' ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : "text/#{format}"
+    file_type = format == "xlsx" ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" : "text/#{format}"
     send_data data, filename: filename, type: file_type
   end
 
@@ -85,39 +72,38 @@ class ReportsController < ApplicationController
   private
 
   def check_admin
-    redirect_to root_path, alert: 'Access denied' unless current_user.has_role?(:admin)
+    redirect_to root_path, alert: "Access denied" unless current_user.has_role?(:admin)
   end
 
   def generate_users_report(users, format)
     return unless users.present?
     # Rails.logger.info "Generating Users Report - Total Users: #{users.count}"
 
-    if format == 'csv'
+    if format == "csv"
       CSV.generate(headers: true) do |csv|
-        csv << ["ID", "First Name", "Last Name", "Email", "Posts Count", "Comments Count", "Likes Count"]
+        csv << [ "ID", "First Name", "Last Name", "Email", "Posts Count", "Comments Count", "Likes Count" ]
         users.each do |user|
-          csv << [user.id, user.first_name, user.last_name, user.email, user.posts_count, user.comments_count, user.likes_count]
+          csv << [ user.id, user.first_name, user.last_name, user.email, user.posts_count, user.comments_count, user.likes_count ]
         end
       end
-    elsif format == 'xlsx'
+    elsif format == "xlsx"
       package = Axlsx::Package.new
       workbook = package.workbook
 
       workbook.add_worksheet(name: "Users Report") do |sheet|
-        sheet.add_row ["ID", "First Name", "Last Name", "Email", "Posts Count", "Comments Count", "Likes Count"]
+        sheet.add_row [ "ID", "First Name", "Last Name", "Email", "Posts Count", "Comments Count", "Likes Count" ]
         users.each do |user|
           Rails.logger.info "Adding User: #{user.first_name} #{user.last_name} (Posts: #{user.posts_count})"
-          sheet.add_row [user.id, user.first_name, user.last_name, user.email, user.posts_count, user.comments_count, user.likes_count]
+          sheet.add_row [ user.id, user.first_name, user.last_name, user.email, user.posts_count, user.comments_count, user.likes_count ]
         end
       end
 
-      # Save to disk for inspection
-    file_path = Rails.root.join('tmp', 'users_report.xlsx')
+    # Save to disk for inspection
+    file_path = Rails.root.join("tmp", "users_report.xlsx")
     package.serialize(file_path)
     Rails.logger.info "Excel file saved to #{file_path}"
 
-
-      return package.to_stream.read
+      package.to_stream.read
     end
   end
 
@@ -125,31 +111,30 @@ class ReportsController < ApplicationController
     return unless posts.present?
     # Rails.logger.info "Generating Posts Report - Total Posts: #{posts.count}"
 
-    if format == 'csv'
+    if format == "csv"
       CSV.generate(headers: true) do |csv|
-        csv << ["Post ID", "Description", "Comments Count", "Likes Count"]
+        csv << [ "Post ID", "Description", "Comments Count", "Likes Count" ]
         posts.each do |post|
-          csv << [post.id, post.description, post.comments_count, post.likes_count]
+          csv << [ post.id, post.description, post.comments_count, post.likes_count ]
         end
       end
-    elsif format == 'xlsx'
+    elsif format == "xlsx"
       package = Axlsx::Package.new
       workbook = package.workbook
 
       workbook.add_worksheet(name: "Postwise Report") do |sheet|
-        sheet.add_row ["Post ID", "Description", "Comments Count", "Likes Count"]
+        sheet.add_row [ "Post ID", "Description", "Comments Count", "Likes Count" ]
         posts.each do |post|
-          sheet.add_row [post.id, post.description, post.comments_count, post.likes_count]
+          sheet.add_row [ post.id, post.description, post.comments_count, post.likes_count ]
         end
       end
 
-       # Temporarily save to disk for inspection
-    file_path = Rails.root.join('tmp', 'users_report.xlsx')
+    # Temporarily save to disk for inspection
+    file_path = Rails.root.join("tmp", "users_report.xlsx")
     package.serialize(file_path)
     Rails.logger.info "Excel file saved to #{file_path}"
 
-
-      return package.to_stream.read
+      package.to_stream.read
     end
   end
 end

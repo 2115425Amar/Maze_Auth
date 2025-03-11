@@ -56,8 +56,10 @@ Rails.application.configure do
   config.cache_store = :solid_cache_store
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
-  config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  # config.active_job.queue_adapter = :solid_queue
+  # config.solid_queue.connects_to = { database: { writing: :queue } }
+
+  config.active_job.queue_adapter = :async
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -73,16 +75,15 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-  user_name: 'apikey',
+  user_name: "apikey",  # This is literally the word 'apikey', not your actual API key
   # password: Rails.application.credentials.dig(:sendgrid, :api_key),
-  password: ENV['SENDGRID_API_KEY'], # Using environment variable
-  address: 'smtp.sendgrid.net',
+  password: ENV["SENDGRID_API_KEY"], # Using environment variable
+  address: "smtp.sendgrid.net",
   port: 587,
   authentication: :plain,
   enable_starttls_auto: true
 }
 
-  # Set host to be used by links generated in mailer templates.
-config.action_mailer.default_url_options = { host: 'localhost', port: 3000 } # For development
-
+# Set host to be used by links generated in mailer templates.
+config.action_mailer.default_url_options = { host: "localhost", port: 3000 } # For development
 end

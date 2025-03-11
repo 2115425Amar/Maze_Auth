@@ -35,78 +35,57 @@ class ManageUsersController < ApplicationController
     redirect_to manage_users_path, notice: "User status updated!"
   end
 
+
   # Display the file upload form
   def upload
   end
 
-  # Handle file upload and process users
+
+
+
   # def upload_users
   #   file = params[:file]
-  #   success_count = 0
-  #   failure_count = 0
-
   #   if file.present?
-  #     case File.extname(file.original_filename)
-  #     when ".csv"
-  #       users = CSV.read(file.path, headers: true)
-  #     when ".xlsx"
-  #       spreadsheet = Roo::Spreadsheet.open(file.path)
-  #       users = spreadsheet.parse(headers: true)
+  #     if  file.content_type == "text/csv" || file.content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+  #     # Save the uploaded file to a persistent location
+  #     saved_file_path = Rails.root.join("tmp", "bulk_upload_#{Time.now.to_i}_#{file.original_filename}")
+  #     File.open(saved_file_path, "wb") { |f| f.write(file.read) }
+
+  #       BulkUserUploadJob.perform_later(file.path, current_user.email)
+  #       redirect_to manage_users_path, notice: "Bulk user upload has started. You will receive an email with the status."
   #     else
-  #       redirect_to upload_manage_users_path, alert: "Invalid file format!" and return
+  #       redirect_to upload_manage_users_path, alert: "Invalid file format. Please upload a CSV or XLSX file."
   #     end
-
-  #     users.each do |row|
-  #       user = User.new(row.to_h)
-  #       user.password = SecureRandom.hex(8)
-        
-  #       if user.save
-  #         success_count += 1
-  #       else
-  #         failure_count += 1
-  #       end
-  #     end
-
-  #     # Send email notification to admin
-  #     BulkUserMailer.upload_status(current_user.email, success_count, failure_count).deliver_later
-
-  #     redirect_to manage_users_path, notice: "Users uploaded successfully!"
   #   else
-  #     redirect_to upload_manage_users_path, alert: "No file selected!"
-  #   end
-  # end
-
-  # def upload_users
-  #   if params[:file].present?
-  #     file_path = params[:file].path
-  #     BulkUserUploadJob.perform_later(file_path, current_user.email) # Background job
-  #     redirect_to manage_users_path, notice: "Bulk upload in progress. You'll receive an email with the status."
-  #   else
-  #     redirect_to upload_manage_users_path, alert: "Please select a file."
+  #     redirect_to upload_manage_users_path, alert: "No file selected."
   #   end
   # end
 
   def upload_users
     file = params[:file]
-  
     if file.present?
-      # Save the uploaded file to a permanent location
-      filename = "uploaded_users_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
-      filepath = Rails.root.join("public", "uploads", filename)
-  
-      File.open(filepath, "wb") do |f|
-        f.write(file.read)
+      if file.content_type == "text/csv" || file.content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        # Save the uploaded file to a persistent location
+        saved_file_path = Rails.root.join("tmp", "bulk_upload_#{Time.now.to_i}_#{file.original_filename}")
+        File.open(saved_file_path, "wb") { |f| f.write(file.read) }
+
+        # Pass the saved file path to the Sidekiq job
+        BulkUserUploadJob.perform_later(saved_file_path.to_s, current_user.email)
+        redirect_to manage_users_path, notice: "Bulk user upload has started. You will receive an email with the status."
+      else
+        redirect_to upload_manage_users_path, alert: "Invalid file format. Please upload a CSV or XLSX file."
       end
-  
-      # Enqueue the Sidekiq job with the permanent file path
-      BulkUserUploadJob.perform_later(filepath.to_s, current_user.email)
-  
-      redirect_to manage_users_path, notice: "Bulk upload started! You'll receive an email with the status."
     else
-      redirect_to manage_users_path, alert: "Please upload a file."
+      redirect_to upload_manage_users_path, alert: "No file selected."
     end
   end
-  
+
+  #   The uploaded file is now saved to the /tmp folder with a unique filename.
+  # ✅ File.open ensures the file data is securely written before passing it to Sidekiq.
+  # ✅ The saved file's path is passed to the BulkUserUploadJob
+
+
 
   private
 
@@ -132,5 +111,4 @@ class ManageUsersController < ApplicationController
       redirect_to manage_users_path, alert: "Please upload a file."
     end
   end
-
 end

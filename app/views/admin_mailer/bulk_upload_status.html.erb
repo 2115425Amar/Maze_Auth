@@ -1,15 +1,20 @@
-<h1>Bulk User Upload Report</h1>
+<!-- app/views/admin_mailer/bulk_upload_status.html.erb -->
+<h1>Bulk User Upload Status</h1>
+<p><%= @success_count %> users were successfully created.</p>
 
-<h2>Successfully Created Users:</h2>
-<ul>
-  <% @created_users.each do |user| %>
-    <li><%= user.email %> - <%= user.first_name %> <%= user.last_name %></li>
-  <% end %>
-</ul>
-
-<h2>Failed Users:</h2>
-<ul>
-  <% @failed_users.each do |user| %>
-    <li><%= user[:email] %>: <%= user[:errors].join(", ") %></li>
-  <% end %>
-</ul>
+<% if @errors.any? %>
+  <h2>Errors:</h2>
+  <ul>
+    <% @errors.each do |error| %>
+      <li>
+        <% if error[:error] %>
+          Error: <%= error[:error] %>
+        <% else %>
+          Row: <%= error[:row] %>, Errors: <%= error[:errors]&.join(', ') || 'No errors' %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No errors occurred during the upload process.</p>
+<% end %>

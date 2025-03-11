@@ -16,6 +16,12 @@ Rails.application.routes.draw do
     resources :likes, only: [ :create, :destroy ]
   end
 
+  resources :reports, only: [ :index ] do
+    collection do
+      get "download_report"
+    end
+  end
+
   resources :manage_users, only: [ :index, :create, :new ] do
     member do
       patch "toggle_status", to: "manage_users#toggle_status"
@@ -27,11 +33,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :reports, only: [ :index ] do
-    collection do
-      get "download_report"
-    end
-  end
+
 
   # /users/manage_users
 

@@ -9,16 +9,21 @@
     <%= csp_meta_tag %>
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
+  
     <link rel="icon" href="<%= asset_path('Vector.svg') %>" type="image/png"> 
     <link rel="icon" href="<%= asset_path('Vector.svg') %>" type="image/svg+xml">
     <link rel="apple-touch-icon" href="<%= asset_path('Vector.svg') %>"> 
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
+      <%= turbo_include_tags %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <!--<%= javascript_importmap_tags %> -->
+    <!-- <script type="module" src="<%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>"></script>  -->
+     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', type: 'module' %>
+
+
+     
+
 
     <!-- Preline CDN -->
     <script src="https://cdn.jsdelivr.net/npm/preline@latest/dist/preline.min.js"></script>
@@ -29,13 +34,8 @@
   </head>
 
   <body class="flex">
+    
     <% if user_signed_in? %>
-
-      <!-- Left Sidebar Toggle Button (Mobile Only) -->
-      <button id="sidebarToggle" class="fixed top-6 left-2 z-50 bg-blue-500 text-white px-4 py-2 rounded md:hidden">
-        ☰
-      </button>
-      
        <!-- Left Sidebar -->
       <div id="sidebar" class="fixed top-0  h-full w-[50%] md:w-[15%] bg-white  p-4 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
         <%= render 'devise/shared/sidebar' %>  
@@ -54,17 +54,6 @@
         <%= yield %>
       </div>
     <% end %>
-
-     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const sidebar = document.getElementById("sidebar");
-        const toggleBtn = document.getElementById("sidebarToggle");
-
-        toggleBtn.addEventListener("click", function() {
-          sidebar.classList.toggle("-translate-x-full");
-        });
-      });
-    </script>
 
   </body>
 </html>

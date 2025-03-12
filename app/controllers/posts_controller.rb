@@ -45,6 +45,20 @@ class PostsController < ApplicationController
     end
   end
 
+  # # turbo method to update post
+  # def create
+  #   @post = Post.new(post_params)
+  #   if @post.save
+  #     respond_to do |format|
+  #       format.turbo_stream
+  #       format.html { redirect_to posts_path, notice: "Post created successfully." }
+  #     end
+  #   else
+  #     render turbo_stream: turbo_stream.replace("post_form", partial: "posts/form", locals: { post: @post })
+  #   end
+  # end
+
+
   def update
     if @post.update(post_params)
       redirect_to posts_path, notice: "Post updated successfully."
@@ -61,23 +75,11 @@ class PostsController < ApplicationController
     else
       flash[:alert] = "You are not authorized to delete this post."
     end
-
-    redirect_to posts_path
+    #   respond_to do |format|
+    #     format.html { redirect_to posts_path, notice: "Post deleted." }
+    #     format.turbo_stream # This will look for a `destroy.turbo_stream.erb` file
+    #   end
   end
-
-  # def destroy
-  #   if current_user.has_role?(:admin) || @post.user == current_user
-  #     @post.destroy
-  #     flash[:notice] = "Post deleted successfully."
-  #   else
-  #     flash[:alert] = "You are not authorized to delete this post."
-  #   end
-
-  #   respond_to do |format|
-  #     format.html { redirect_to posts_path, notice: "Post deleted." }
-  #     format.turbo_stream # This will look for a `destroy.turbo_stream.erb` file
-  #   end
-  # end
 
   private
 

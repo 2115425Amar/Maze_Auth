@@ -16,14 +16,19 @@ class User < ApplicationRecord
   # Default role assignment
   after_create :assign_default_role
   after_create :send_welcome_email
+  after_create :upload_avatar
 
+  # after_update :upload_avatar, if: :avatar_changed?
+  def avatar_changed?
+    avatar.present? && avatar != avatar_was
+  end
 
   def assign_default_role
     self.add_role(:user) if self.roles.blank? # Assign "user" role by default
   end
 
   # has_one_attached :avatar
-  # attr_accessor :avatar
+  attr_accessor :avatar
   # after_save :upload_avatar, if: -> { avatar.present? }
 
   # Methods
@@ -39,7 +44,6 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-
   def active?
     active
   end
@@ -51,20 +55,19 @@ class User < ApplicationRecord
 
 private
 
-def send_welcome_email
-  UserMailer.welcome_email(self).deliver_later
-end
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver_later
+  end
 
-  # def upload_avatar
-  #   # Upload the avatar to Cloudinary
-  #   response = Cloudinary::Uploader.upload(avatar, folder: "avatars")
-  #   self.update_column(:avatar_public_id, response["public_id"])
-  # end
 
   def upload_avatar
     # return unless avatar.present? # Ensure avatar is present
+
+    Rails.logger.info "Uploading avatar..."
     response = Cloudinary::Uploader.upload(avatar, folder: "avatars")
     self.update_column(:avatar_public_id, response["public_id"])
+
+    Rails.logger.info "Avatar uploaded successfully: #{response["public_id"]}"  
   rescue Cloudinary::Error => e
     Rails.logger.error "Failed to upload avatar: #{e.message}"
   end

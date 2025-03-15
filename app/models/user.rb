@@ -60,15 +60,17 @@ private
   end
 
 
-  def upload_avatar
-    # return unless avatar.present? # Ensure avatar is present
+  # def upload_avatar
+  #   # return unless avatar.present? # Ensure avatar is present
 
-    Rails.logger.info "Uploading avatar..."
-    response = Cloudinary::Uploader.upload(avatar, folder: "avatars")
-    self.update_column(:avatar_public_id, response["public_id"])
+  #   Rails.logger.info "Uploading avatar..."
+  #   response = Cloudinary::Uploader.upload(avatar, folder: "avatars")
+  #   self.update_column(:avatar_public_id, response["public_id"])
 
-    Rails.logger.info "Avatar uploaded successfully: #{response["public_id"]}"  
-  rescue Cloudinary::Error => e
-    Rails.logger.error "Failed to upload avatar: #{e.message}"
-  end
+  #   Rails.logger.info "Avatar uploaded successfully: #{response["public_id"]}"  
+  # rescue Cloudinary::Error => e
+  #   Rails.logger.error "Failed to upload avatar: #{e.message}"
+  # end
+
+
 end

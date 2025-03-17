@@ -1,7 +1,5 @@
 require "sidekiq/web"
 Rails.application.routes.draw do
-  get "manage_users/index"
-  get "manage_users/toggle_status"
 
   devise_for :users, controllers: {
     registrations: "users/registrations",
@@ -15,6 +13,8 @@ Rails.application.routes.draw do
   resources :comments do
     resources :likes, only: [ :create, :destroy ]
   end
+
+  get "profile", to: "users#profile"
 
   resources :reports, only: [ :index ] do
     collection do
@@ -34,21 +34,21 @@ Rails.application.routes.draw do
   end
 
 
-
-  # /users/manage_users
-
   root "home#index"
-  get "/landing", to: "home#landing"
-  get "profile", to: "users#profile"
-
-    # get 'feed', to: 'posts#index', as: :feed
-    # get 'test_xlsx_report', to: 'reports#test_xlsx_report'
-
-    # ---------- for sidekiq ui -------------------
-    # authenticate :user, ->(user) { user.admin? } do
+  # get "/landing", to: "home#landing"
+    
     mount Sidekiq::Web => "/sidekiq"
-  # end
 end
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -59,6 +59,7 @@ end
 #       post 'activate'
 #       post 'deactivate'
 #     end
+
 #     collection do
 #       get 'filter_by_role'
 #     end
@@ -75,6 +76,7 @@ end
 #   delete 'users/:id', to: 'users#destroy'
 #   post 'users/:id/activate', to: 'users#activate'
 #   post 'users/:id/deactivate', to: 'users#deactivate'
+
 #   get 'users/filter_by_role', to: 'users#filter_by_role'
 
 #   get 'posts', to: 'posts#index'
@@ -83,13 +85,19 @@ end
 # end
 
 
+# member Routes
+# Purpose: Used to define routes that act on a specific member (a single record) of the resource.
+# URL Structure: Includes the :id of the resource in the URL.
+# Example: If you have a posts resource, a member route might be used to like a specific post.
+
+# When the action is specific to a single record (e.g., liking a post, toggling the status of a user).
+
+# ---------------------------------
+# collection Routes
+# Purpose: Used to define routes that act on the entire collection of the resource (not tied to a specific record).
+# URL Structure: Does not include the :id of the resource.
+# Example: If you have a posts resource, a collection route might be used to search all posts.
 
 
-# devise_for :users
-# This sets up Devise authentication routes for the User model.
-# It automatically generates routes for actions like sign up, login, logout, and password management.
 
-# controllers: { registrations: 'users/registrations' }
-# This tells Devise to use a custom controller for user registration.
-# Instead of using Devise's default Devise::RegistrationsController,
-# it will use Users::RegistrationsController (which should be located at app/controllers/users/registrations_controller.rb).
+

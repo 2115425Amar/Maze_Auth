@@ -27,7 +27,6 @@ Rails.application.routes.draw do
       patch "toggle_status", to: "manage_users#toggle_status"
     end
     collection do
-      # post 'bulk_upload'
       get "upload"         # Display the upload form
       post "upload_users"  # Handle the CSV/XLSX upload
     end

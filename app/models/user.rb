@@ -18,14 +18,14 @@ class User < ApplicationRecord
   after_create :send_welcome_email
   after_create :upload_avatar
 
+  def assign_default_role
+    self.add_role(:user) if self.roles.blank? # Assign "user" role by default
+  end
+
   # after_update :upload_avatar, if: :avatar_changed?
   # def avatar_changed?
   #   avatar.present? && avatar != avatar_was
   # end
-
-  def assign_default_role
-    self.add_role(:user) if self.roles.blank? # Assign "user" role by default
-  end
 
   # has_one_attached :avatar
   attr_accessor :avatar
@@ -36,7 +36,7 @@ class User < ApplicationRecord
     if avatar_public_id.present?
       Cloudinary::Utils.cloudinary_url(avatar_public_id, width: 150, height: 150, crop: :fill)
     else
-      "img.png" # Default image if no avatar is uploaded
+      "amargupta.jpeg" # Default image if no avatar is uploaded
     end
   end
 
@@ -52,18 +52,16 @@ class User < ApplicationRecord
     has_role?(:admin)
   end
 
-
 private
 
   def send_welcome_email
     UserMailer.welcome_email(self).deliver_later
   end
 
-
   def upload_avatar
     # return unless avatar.present? # Ensure avatar is present
 
-    Rails.logger.info "Uploading avatar..."
+    # Rails.logger.info "Uploading avatar..."
     response = Cloudinary::Uploader.upload(avatar, folder: "avatars")
     self.update_column(:avatar_public_id, response["public_id"])
 
@@ -71,6 +69,5 @@ private
   rescue Cloudinary::Error => e
     Rails.logger.error "Failed to upload avatar: #{e.message}"
   end
-
 
 end

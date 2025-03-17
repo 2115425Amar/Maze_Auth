@@ -5,10 +5,6 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
   before_action :authorize_post, only: %i[show edit update destroy]
 
-  # def index
-  #   @posts = Post.includes(:comments).order(created_at: :desc)
-  # end
-
   def index
     @users = User.all  # Add this line to load users
     if current_user.has_role?(:admin)
@@ -68,23 +64,34 @@ class PostsController < ApplicationController
   end
 
 
+  # def destroy
+  #   if current_user.has_role?(:admin) || @post.user == current_user
+  #     @post.destroy
+  #     flash[:notice] = "Post deleted successfully."
+  #   else
+  #     flash[:alert] = "You are not authorized to delete this post."
+  #   end
+  #   #   respond_to do |format|
+  #   #     format.html { redirect_to posts_path, notice: "Post deleted." }
+  #   #     format.turbo_stream # This will look for a `destroy.turbo_stream.erb` file
+  #   #   end
+  # end
+  # 
   def destroy
     if current_user.has_role?(:admin) || @post.user == current_user
       @post.destroy
-      flash[:notice] = "Post deleted successfully."
+      redirect_to posts_path, notice: "Post was successfully deleted."
     else
-      flash[:alert] = "You are not authorized to delete this post."
+      redirect_to posts_path, alert: "You are not authorized to delete this post."
     end
-    #   respond_to do |format|
-    #     format.html { redirect_to posts_path, notice: "Post deleted." }
-    #     format.turbo_stream # This will look for a `destroy.turbo_stream.erb` file
-    #   end
   end
+
 
   private
 
   def set_post
-    @post = current_user.posts.find_by(id: params[:id])
+    # @post = current_user.posts.find_by(id: params[:id])
+    @post = Post.find_by(id: params[:id]) # Allow admin to fetch any post
     # puts "Post: #{@post.inspect}" # Debugging statement
     redirect_to posts_path, alert: "Post not found." if @post.nil?
   end
@@ -95,7 +102,7 @@ class PostsController < ApplicationController
 
   def authorize_post
     unless @post.public? || @post.user == current_user || current_user.has_role?(:admin)
-      flash[:alert] = "You are not authorized to view this post."
+      # flash[:alert] = "You are not authorized to view this post."
       redirect_to posts_path
     end
   end

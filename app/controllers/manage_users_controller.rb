@@ -42,26 +42,6 @@ class ManageUsersController < ApplicationController
 
 
 
-
-  # def upload_users
-  #   file = params[:file]
-  #   if file.present?
-  #     if  file.content_type == "text/csv" || file.content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-
-  #     # Save the uploaded file to a persistent location
-  #     saved_file_path = Rails.root.join("tmp", "bulk_upload_#{Time.now.to_i}_#{file.original_filename}")
-  #     File.open(saved_file_path, "wb") { |f| f.write(file.read) }
-
-  #       BulkUserUploadJob.perform_later(file.path, current_user.email)
-  #       redirect_to manage_users_path, notice: "Bulk user upload has started. You will receive an email with the status."
-  #     else
-  #       redirect_to upload_manage_users_path, alert: "Invalid file format. Please upload a CSV or XLSX file."
-  #     end
-  #   else
-  #     redirect_to upload_manage_users_path, alert: "No file selected."
-  #   end
-  # end
-
   def upload_users
     file = params[:file]
     if file.present?

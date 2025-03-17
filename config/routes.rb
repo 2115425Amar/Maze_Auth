@@ -34,7 +34,6 @@ Rails.application.routes.draw do
 
 
   root "home#index"
-  # get "/landing", to: "home#landing"
     
     mount Sidekiq::Web => "/sidekiq"
 end

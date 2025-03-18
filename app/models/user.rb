@@ -59,7 +59,7 @@ private
   end
 
   def upload_avatar
-    # return unless avatar.present? # Ensure avatar is present
+    return unless avatar.present? # Ensure avatar is present
 
     # Rails.logger.info "Uploading avatar..."
     response = Cloudinary::Uploader.upload(avatar, folder: "avatars")

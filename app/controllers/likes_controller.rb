@@ -6,12 +6,12 @@ class LikesController < ApplicationController
     like = @likeable.likes.find_by(user: current_user)
 
     if like
-      # redirect_to posts_path(@post), alert: "Failed to add comment."
       like.destroy
     else
       @likeable.likes.create(user: current_user)
     end
 
+    # redirect_back fallback_location: root_path
     respond_to do |format|
       format.html { redirect_back(fallback_location: root_path) }
       format.js   # This will trigger a JavaScript response

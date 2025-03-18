@@ -141,7 +141,7 @@
                     <% if post.comments.any? %>
                       <div class="space-y-3">
                         <% post.comments.each_with_index do |comment, index| %>
-                          <div x-show="expanded || <%= index < 2 %>" class="flex justify-between items-start bg-gray-50 p-2 md:p-4 rounded-lg shadow-sm">
+                          <div x-show="expanded || <%= index < 1 %>" class="flex justify-between items-start bg-gray-50 p-2 md:p-4 rounded-lg shadow-sm">
                             <div class="flex-1">
                               <div class="flex items-center space-x-2">
                                 <strong class="text-gray-800"><%= comment.user.first_name %> <%= comment.user.last_name %></strong>
@@ -149,14 +149,27 @@
                               </div>
                               <p class="text-gray-600 mt-1"><%= comment.content %></p>
                             </div>
-                            <div class="flex items-center space-x-2">
-                              <button class="text-gray-500 hover:text-blue-600">
-                                <img src="<%= asset_path('dil.svg') %>" alt="Like" class="w-5 h-5">
-                              </button>
-                            </div>
+
+                            <%# like button for the comment %>
+                             <!-- Like Button for Comment -->
+    <div class="flex items-center space-x-2">
+      <%= button_to comment_likes_path(comment), method: :post, class: "like-button", id: "like-button-#{comment.id}" do %>
+      <%# The attribute id: "like-button-#{comment.id}"   in the button_to helper assigns a unique HTML id to each like button corresponding to a comment. %>
+        <% if comment.likes.find_by(user: current_user) %>
+          <div class="mr-1">❤️</div>
+        <% else %>
+          <img src="<%= asset_path('dil.svg') %>" alt="Like" class="mr-1 w-5 h-5">
+        <% end %>
+        <span class="text-gray-600 hover:text-blue-600"><%= comment.likes.count %> Like</span>
+      <% end %>
+    </div>
+
+                            
+
                           </div>
                         <% end %>
                       </div>
+
                       <hr class="w-full border-gray-200">
                       <% if post.comments.count > 2 %>
                         <div class="flex justify-end">

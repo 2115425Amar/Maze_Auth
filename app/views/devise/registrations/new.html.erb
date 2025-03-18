@@ -5,7 +5,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
-<body style="background-image: url(<%= asset_path('earth.png') %>)" class="bg-cover h-screen">
+<body >
+
+  <div style="background-image: url(<%= asset_path('earth.png') %>);" class="bg-cover h-screen">
 
   <!-- Navigation Bar -->
   <%= render 'devise/shared/nav' %>
@@ -105,7 +107,7 @@
       </div>
     </div>
   </div>
-
+  </div>
   <script>
     // Automatically remove the flash message after 3 seconds
     setTimeout(() => {

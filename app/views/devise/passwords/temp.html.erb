@@ -1,28 +1,30 @@
-<h2>Change your password</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+<body style="background-image: url(<%= asset_path('earth.png') %>)" class="bg-cover h-screen">
+
+  <!-- Navigation Bar -->
+  <%= render 'devise/shared/nav' %>
+  <hr>
+
+  <div class="text-white relative overflow-hidden font-[Montserrat] flex justify-center items-end">
+
+    <!-- Main Content -->
+    <div class="backdrop-blur-md bg-white/15 w-[90%] md:w-[60%] mt-[6%] rounded-2xl flex justify-end items-end">
+      <!-- component -->
+
+    
+
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+ 
 
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
+</body>
 
-<%= render "devise/shared/links" %>
-
-
+</html>
 

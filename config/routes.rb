@@ -1,6 +1,5 @@
 require "sidekiq/web"
 Rails.application.routes.draw do
-
   devise_for :users, controllers: {
     registrations: "users/registrations",
     sessions: "users/sessions" }
@@ -32,9 +31,8 @@ Rails.application.routes.draw do
     end
   end
 
-
   root "home#index"
-    
+
     mount Sidekiq::Web => "/sidekiq"
 end
 
@@ -95,7 +93,3 @@ end
 # Purpose: Used to define routes that act on the entire collection of the resource (not tied to a specific record).
 # URL Structure: Does not include the :id of the resource.
 # Example: If you have a posts resource, a collection route might be used to search all posts.
-
-
-
-

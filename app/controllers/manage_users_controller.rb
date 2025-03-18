@@ -4,7 +4,6 @@ class ManageUsersController < ApplicationController
 
   def index
     @users = User.where.not(id: current_user.id).page(params[:page])
-    # @users = User.all
   end
 
   def new
@@ -36,11 +35,11 @@ class ManageUsersController < ApplicationController
   end
 
 
+
+
   # Display the file upload form
   def upload
   end
-
-
 
   def upload_users
     file = params[:file]
@@ -65,8 +64,6 @@ class ManageUsersController < ApplicationController
   # ✅ File.open ensures the file data is securely written before passing it to Sidekiq.
   # ✅ The saved file's path is passed to the BulkUserUploadJob
 
-
-
   private
 
   def user_params
@@ -80,15 +77,5 @@ class ManageUsersController < ApplicationController
 
   def authorize_admin
     redirect_to root_path, alert: "Access denied." unless current_user.admin?
-  end
-
-  def bulk_upload
-    if params[:file].present?
-      file_path = params[:file].path
-      BulkUserUploadJob.perform_later(file_path, current_user.email)
-      redirect_to manage_users_path, notice: "Bulk upload in progress. You'll receive an email with the status."
-    else
-      redirect_to manage_users_path, alert: "Please upload a file."
-    end
   end
 end

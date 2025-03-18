@@ -6,7 +6,6 @@ class ReportsController < ApplicationController
   before_action :check_admin
 
   def index
-    # This will render the reports index view
   end
 
   # Generates and downloads reports

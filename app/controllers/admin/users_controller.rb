@@ -29,10 +29,10 @@ module Admin
       @user = User.new(user_params)
       if @user.save
         @user.add_role(params[:user][:role_ids]) if params[:user][:role_ids].present?
-        flash[:notice] = "User created successfully."
+        # flash[:notice] = "User created successfully."
         redirect_to admin_users_path
       else
-        flash[:alert] = "Failed to create user."
+        # flash[:alert] = "Failed to create user."
         render :new
       end
     end

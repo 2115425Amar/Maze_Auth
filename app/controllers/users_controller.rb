@@ -11,6 +11,28 @@
     @user = current_user
   end
 
+  def update_profile
+    @user = current_user
+
+    if @user.update(user_params)
+      # Handle Avatar Upload
+      if params[:user][:avatar].present?
+        response = Cloudinary::Uploader.upload(params[:user][:avatar], folder: "avatars")
+        @user.update(avatar_public_id: response["public_id"])
+      end
+
+      bypass_sign_in(@user) if params[:user][:password].present? # Keep user signed in after password update
+      flash[:notice] = "Profile updated successfully"
+      redirect_to profile_path
+    else
+      flash[:alert] = "Failed to update profile"
+      render :profile
+    end
+  end
+
+
+  
+
   def manage_users
     @users = User.page(params[:page]).per(10)
   end
@@ -49,6 +71,6 @@
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, role_ids: [])
+    params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation,  :avatar, role_ids: [])
   end
   end

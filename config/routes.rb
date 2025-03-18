@@ -13,7 +13,10 @@ Rails.application.routes.draw do
     resources :likes, only: [ :create, :destroy ]
   end
 
-  get "profile", to: "users#profile"
+  # get "profile", to: "users#profile"
+  # Custom profile update route
+  resource :profile, only: [:show, :update], controller: 'users', action: :profile
+  patch 'profile/update', to: 'users#update_profile', as: :update_profile
 
   resources :reports, only: [ :index ] do
     collection do

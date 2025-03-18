@@ -1,21 +1,16 @@
 <body class="flex">
-
+  <!-- Navbar -->
   <div class="">
     <%= render 'devise/shared/navbar' %>
   </div>
 
-
   <!-- Main Content -->
-  <div id="main-content" class="flex-1  transition-all duration-300 pt-20   "
-  style="margin-right: <% if current_user&.admin? %>19%<% else %>0%<% end %>;"
-   >
-
+  <div id="main-content" class="flex-1 transition-all duration-300 pt-20 <%= current_user&.admin? ? 'md:mr-[19%]' : '' %>">
    
 
-    <!-- Main Content -->
-    <div class="w3-container ">
+    <!-- Post Form and Posts List -->
+    <div class="w3-container">
       <div class="bg-gray-200 rounded-xl">
-
         <!-- Post Form -->
         <div class="bg-gray-200 p-4 md:m-4 rounded-xl">
           <%= form_with(model: Post.new, url: posts_path, local: false) do |form| %>
@@ -25,9 +20,7 @@
                      class: "w-full px-4 py-5 bg-[#F5F6F8] rounded-xl focus:outline-none border border-black" %>
               </div>
 
-              
-
-              <!--public/private-->
+              <!-- Public/Private Radio Buttons -->
               <div class="flex flex-col justify-between p-4 border-[#3333334D] mx-6">
                 <span class="block text-base font-medium text-gray-900">Visibility</span>
                 <div class="flex gap-4 pt-1 mt-2">
@@ -42,8 +35,8 @@
                 </div>
               </div>
 
+              <!-- Media Icons and Submit Button -->
               <div class="flex justify-between p-4 border-[#3333334D] mx-6">
-                <!--media icons-->
                 <div class="flex gap-6 text-gray-600">
                   <div class="flex items-center gap-2 hover:cursor-pointer">
                     <img src="<%= asset_path('video.svg')%>" class="w-5" alt="Live Video">
@@ -58,20 +51,17 @@
                     <span class="hidden sm:inline">Feeling</span>
                   </div>
                 </div>
-                <!--submit button-->
                 <%= form.submit "Post", class: "px-4 py-1 md:px-10 md:py-3 bg-[#4378DB] text-white font-medium rounded-lg cursor-pointer" %>
               </div>
             </div>
           <% end %>
 
-         
-
+          <!-- Posts List -->
           <div class="space-y-4">
             <% if @posts.present? %>
               <% @posts.each do |post| %>
                 <div class="md:mx-[2%] bg-white rounded-xl p-4 md:p-6 shadow-md">
                   <div class="flex justify-between items-start mb-3 mx-2">
-
                     <div class="flex items-center hover:bg-gray-100 p-2 rounded-lg transition-colors">
                       <!-- Avatar -->
                       <%= image_tag post.user.avatar_url, class: "w-10 h-10 rounded-full mr-3 hover:opacity-80 transition-opacity" %>
@@ -87,6 +77,7 @@
                       </div>
                     </div>
 
+                    <!-- Options Menu -->
                     <div class="flex gap-3">
                       <div class="relative inline-block gap-1" x-data="{ open: false }">
                         <div class="w-12">
@@ -94,11 +85,11 @@
                             <img src="<%= asset_path('dots.svg') %>" alt="">
                           </button>
                         </div>
-                        <div x-show="open" @click.outside="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 z-10  w-32 md:w-32 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <div x-show="open" @click.outside="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 z-10 w-32 md:w-32 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                           <div class="" role="none">
                             <%= link_to "Show", "posts/#{post.id}", class: "block px-4 py-2 text-sm md:text-lg text-gray-700 font-semibold hover:text-indigo-800" %>
                             <% if current_user.has_role?(:admin) || post.user == current_user %>
-                            <%= link_to "Edit", "posts/#{post.id}/edit", class: "block px-4 py-2 text-sm md:text-lg text-gray-700 font-semibold hover:text-indigo-800" %>
+                              <%= link_to "Edit", "posts/#{post.id}/edit", class: "block px-4 py-2 text-sm md:text-lg text-gray-700 font-semibold hover:text-indigo-800" %>
                             <% end %>
                             <% if current_user.has_role?(:admin) || post.user == current_user %>
                               <%= link_to "Delete", post_path(post), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "block px-4 py-2 text-sm md:text-lg text-gray-700 font-semibold hover:text-indigo-800" %>
@@ -109,19 +100,21 @@
                     </div>
                   </div>
 
+                  <!-- Post Description -->
                   <p class="text-gray-800 mb-4 mx-2 text-sm md:text-xl"><%= post.description %></p>
-                  <div class="flex text-sm text-gray-600 ">
+
+                  <!-- Likes and Comments Count -->
+                  <div class="flex text-sm text-gray-600">
                     <div class="w-1/6 p-2"><%= post.likes.count %> Likes</div>
                     <div class="w-1/4 p-2 flex item-end"><%= post.comments.count %> Comments</div>
                   </div>
 
+                  <!-- Like and Comment Buttons -->
                   <div class="flex gap-[20%] py-3 border-y border-gray-200 mx-2">
                     <%= button_to post_likes_path(post), method: :post, remote: true, class: "like-button", id: "like-button-#{post.id}" do %>
                       <div class="flex flex-row items-center">
                         <% if post.likes.find_by(user: current_user) %>
-                        <div class="mr-1">
-                          ❤️
-                        </div>
+                          <div class="mr-1">❤️</div>
                         <% else %>
                           <img src="<%= asset_path('dil.svg') %>" alt="Like" class="mr-1 w-5 h-5">
                         <% end %>
@@ -131,8 +124,7 @@
                     <span class="text-gray-600 hover:text-blue-600">💬 Comment</span>
                   </div>
 
-                  <%# comment form %>
-
+                  <!-- Comment Form -->
                   <%= form_with(model: [post, Comment.new], url: post_comments_path(post), local: false, class: "mt-3" ) do |form| %>
                     <div class="flex space-x-2 p-2 bg-gray-100 rounded-lg">
                       <%= form.text_field :content, placeholder: "Write a comment...", class: "w-[70%] flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
@@ -142,6 +134,7 @@
                     </div>
                   <% end %>
 
+                  <!-- Comments Section -->
                   <div class="mt-4 md:mx-6 space-y-4" x-data="{ expanded: false }">
                     <h1 class="w-full font-medium text-gray-500 text-lg md:text-xl">Comments</h1>
                     <hr class="w-full border-gray-200">
@@ -183,58 +176,15 @@
             <% end %>
           </div>
         </div>
-        
       </div>
     </div>
   </div>
 
   <!-- Right Sidebar (Admin only) -->
-  <div >
-      <!-- Right Sidebar -->
-  <% if current_user&.admin? %>
-    <!-- Right Sidebar (Admin only) -->
-    <div class="fixed top-0 right-0 md:w-[16%] h-full bg-white  p-4 overflow-y-auto hidden md:block" id="sidebar">
-
-      <!-- User Info -->
-      <div class="flex items-center gap-4 pb-4 border-b">
-        <%= image_tag current_user.avatar_url, class: "w-10 h-10 rounded-full" %>
-        <div>
-          <h2 class="text-lg font-semibold text-gray-900"><%= current_user.first_name %> <%= current_user.last_name %></h2>
-          <div class="text-sm text-gray-500">Admin</div>
-        </div>
-      </div>
-
-      
-       <!-- Clear Filter Button (only shown when a filter is applied) -->
-  <% if params[:user_id] %>
-    <div class="">
-      <div class="mt-5 flex justify-center">
-        <%= link_to "Clear Filter", posts_path, class: "px-4 py-1 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300" %>
-      </div>
-    </div>
-  <% end %>
-
-
-      <!-- Users List -->
-      <div class="pt-4 overflow-y-auto" style="max-height: calc(100vh - 100px);">
-        <h3 class="text-lg font-semibold text-gray-700 mb-3">Users List</h3>
-        <div class="space-y-3">
-          <% if @users.present? %>
-              <% @users.each do |user| %>
-                 <%= link_to posts_path(user_id: user.id), class: "flex items-center space-x-3 p-2 shadow-sm hover:bg-[#377DFF] text-gray-800 hover:text-white rounded-lg cursor-pointer" do %>
-                <%= image_tag user.avatar_url, class: "w-10 h-10 rounded-full mr-3 hover:opacity-80 transition-opacity" %>
-                <span class="font-medium"><%= user.first_name %> <%= user.last_name %></span>
-              <% end %>
-            
-            <% end %>
-          <% else %>
-            <p class="text-gray-500 text-sm">No users found.</p>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  <% end %>
-  
+   <div class="">
+    <%= render 'devise/shared/right_sidebar' %>
   </div>
+ 
+
 
 </body>

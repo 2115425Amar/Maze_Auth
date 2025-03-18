@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to post_path(@post), notice: "Comment added!"
     else
-      flash[:alert] = "Comment could not be created"
+      # flash[:alert] = "Comment could not be created"
       redirect_to root_path
     end
 
@@ -24,7 +24,6 @@ class CommentsController < ApplicationController
     # else
     #   render :new, status: :unprocessable_entity
     # end
-
   end
 
   private

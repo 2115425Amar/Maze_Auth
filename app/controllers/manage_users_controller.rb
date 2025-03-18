@@ -18,7 +18,7 @@ class ManageUsersController < ApplicationController
       assign_roles(@user)
       redirect_to manage_users_path, notice: "User created successfully!"
     else
-      flash.now[:alert] = "User creation failed!"
+      # flash.now[:alert] = "User creation failed!"
       render :new, status: :unprocessable_entity
     end
   end

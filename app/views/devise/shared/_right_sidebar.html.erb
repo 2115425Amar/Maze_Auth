@@ -22,7 +22,7 @@
         <div class="space-y-3">
           <% if @users.present? %>
             <% @users.each do |user| %>
-              <%= link_to posts_path(user_id: user.id), class: "flex items-center space-x-3 p-2 shadow-sm hover:bg-[#377DFF] text-gray-800 hover:text-white rounded-lg cursor-pointer" do %>
+              <%= link_to posts_path(user_id: user.id), class: "flex items-center space-x-3 p-2 shadow-md hover:bg-[#377DFF] text-gray-800 hover:text-white rounded-lg cursor-pointer" do %>
                 <%= image_tag user.avatar_url, class: "w-10 h-10 rounded-full mr-3 hover:opacity-80 transition-opacity" %>
                 <span class="font-medium"><%= user.first_name %> <%= user.last_name %></span>
               <% end %>

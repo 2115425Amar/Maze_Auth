@@ -14,10 +14,11 @@
         <!-- Post Form -->
         <div class="bg-gray-200 p-4 md:m-4 rounded-xl">
           <%= form_with(model: Post.new, url: posts_path, local: false) do |form| %>
+
             <div class="bg-white rounded-lg mt-8 md:mx-[2%] my-5">
               <div class="p-5 mx-6">
                 <%= form.text_area :description, placeholder: "What's happening...?", 
-                     class: "w-full px-4 py-5 bg-[#F5F6F8] rounded-xl focus:outline-none border border-black" %>
+                     class: "w-full px-4 py-7  bg-[#F5F6F8] rounded-xl focus:outline-none border border-black resize-none" %>
               </div>
 
               <!-- Public/Private Radio Buttons -->
@@ -152,20 +153,17 @@
 
                             <%# like button for the comment %>
                              <!-- Like Button for Comment -->
-    <div class="flex items-center space-x-2">
-      <%= button_to comment_likes_path(comment), method: :post, class: "like-button", id: "like-button-#{comment.id}" do %>
-      <%# The attribute id: "like-button-#{comment.id}"   in the button_to helper assigns a unique HTML id to each like button corresponding to a comment. %>
-        <% if comment.likes.find_by(user: current_user) %>
-          <div class="mr-1">❤️</div>
-        <% else %>
-          <img src="<%= asset_path('dil.svg') %>" alt="Like" class="mr-1 w-5 h-5">
-        <% end %>
-        <span class="text-gray-600 hover:text-blue-600"><%= comment.likes.count %> Like</span>
-      <% end %>
-    </div>
-
-                            
-
+                            <div class="flex items-center space-x-2">
+                              <%= button_to comment_likes_path(comment), method: :post, class: "like-button", id: "like-button-#{comment.id}" do %>
+                              <%# The attribute id: "like-button-#{comment.id}"   in the button_to helper assigns a unique HTML id to each like button corresponding to a comment. %>
+                                <% if comment.likes.find_by(user: current_user) %>
+                                  <div class="mr-1">❤️</div>
+                                <% else %>
+                                  <img src="<%= asset_path('dil.svg') %>" alt="Like" class="mr-1 w-5 h-5">
+                                <% end %>
+                                <span class="text-gray-600 hover:text-blue-600"><%= comment.likes.count %> Like</span>
+                              <% end %>
+                            </div>
                           </div>
                         <% end %>
                       </div>

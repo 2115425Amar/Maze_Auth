@@ -61,7 +61,7 @@ module Admin
 
   def authorize_post
     unless @post.public? || @post.user == current_user || current_user.has_role?(:admin)
-      flash[:alert] = "You are not authorized to view this post."
+      # flash[:alert] = "You are not authorized to view this post."
       redirect_to posts_path
     end
   end
@@ -71,7 +71,7 @@ module Admin
 
     def require_admin
       unless current_user.has_role?(:admin)
-        flash[:alert] = "You are not authorized to access this page."
+        # flash[:alert] = "You are not authorized to access this page."
         redirect_to root_path
       end
     end

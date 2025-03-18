@@ -23,6 +23,13 @@
         <!-- Devise Login Form -->
         <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4" }) do |f| %>
 
+        <!-- Add this to your login form to display flash messages -->
+            <% if flash[:alert] %>
+                <div id="flash-alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                  <%= flash[:alert] %>
+                </div>
+            <% end %>
+
         <!-- Email field -->
         <div>
           <label class="block text-sm mb-1 ">Email</label>
@@ -35,8 +42,8 @@
         <div>
           <label class="block text-sm mb-1 ">Password</label>
           <%= f.password_field :password,
-                               class: "w-full px-3 py-2 rounded-md text-black bg-white focus:outline-none focus:border-blue-500",
-                               placeholder: "Enter your password", required: true %>
+            class: "w-full px-3 py-2 rounded-md text-black bg-white focus:outline-none focus:border-blue-500",
+            placeholder: "Enter your password", required: true %>
         </div>
 
         <!-- Remember me checkbox -->
@@ -60,6 +67,17 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // Automatically remove the flash message after 3 seconds
+    setTimeout(() => {
+      const flashAlert = document.getElementById('flash-alert');
+      if (flashAlert) {
+        flashAlert.remove();
+      }
+    }, 3000); // 3000 ms = 3 s
+  </script>
+
 </body>
 
 </html>

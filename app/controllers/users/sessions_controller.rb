@@ -2,11 +2,8 @@ class Users::SessionsController < Devise::SessionsController
   # customizations, if any, go here
   def new
       super
-    end
+  end
 
-    # def create
-    #   super
-    # end
 
     def create
       # Find the user by email

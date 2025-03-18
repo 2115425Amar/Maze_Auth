@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   # Default role assignment
   after_create :assign_default_role
-  after_create :send_welcome_email
+  # after_create :send_welcome_email
   after_create :upload_avatar
 
   def assign_default_role
@@ -52,10 +52,6 @@ class User < ApplicationRecord
   end
 
 private
-
-  def send_welcome_email
-    UserMailer.welcome_email(self).deliver_later
-  end
 
   def upload_avatar
     return unless avatar.present? # Ensure avatar is present

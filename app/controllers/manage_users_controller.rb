@@ -23,6 +23,15 @@ class ManageUsersController < ApplicationController
     end
   end
 
+  def destroy
+    user = User.find(params[:id])
+    if user.destroy
+      redirect_to manage_users_path, notice: "User deleted successfully."
+    else
+      redirect_to manage_users_path, alert: "Failed to delete user."
+    end
+  end
+
 
   def toggle_status
     user = User.find(params[:id])
@@ -33,8 +42,6 @@ class ManageUsersController < ApplicationController
     # end
     redirect_to manage_users_path, notice: "User status updated!"
   end
-
-
 
 
   # Display the file upload form

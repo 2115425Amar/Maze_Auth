@@ -14,16 +14,7 @@ class CommentsController < ApplicationController
       redirect_to root_path
     end
 
-    # if @comment.save
-    #   respond_to do |format|
-    #     format.turbo_stream do
-    #       render turbo_stream: turbo_stream.append("comments-for-post-#{@post.id}", partial: "comments/comment", locals: { comment: @comment })
-    #     end
-    #     format.html { redirect_to post_path(@post), notice: "Comment added." }
-    #   end
-    # else
-    #   render :new, status: :unprocessable_entity
-    # end
+   
   end
 
   private

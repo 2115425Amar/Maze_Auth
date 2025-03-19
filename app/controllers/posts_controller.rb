@@ -61,18 +61,7 @@ class PostsController < ApplicationController
     end
   end
 
-  # # turbo method to update post
-  # def create
-  #   @post = Post.new(post_params)
-  #   if @post.save
-  #     respond_to do |format|
-  #       format.turbo_stream
-  #       format.html { redirect_to posts_path, notice: "Post created successfully." }
-  #     end
-  #   else
-  #     render turbo_stream: turbo_stream.replace("post_form", partial: "posts/form", locals: { post: @post })
-  #   end
-  # end
+
 
 
   def update

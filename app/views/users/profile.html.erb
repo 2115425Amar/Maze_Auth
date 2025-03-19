@@ -1,83 +1,74 @@
-<body class="flex ">
-
- <div class=" md:mt-[10%]" >
-           <%= render 'devise/shared/navbar' %>
-          </div>
-
-  <!-- Main Content -->
-  <div id="main-content" class="flex-1  transition-all duration-300  ">
-
-    <!-- Main Content -->
-    <div class="w3-container " >
-      <div class="rounded-xl flex flex-col">
-
-      <div class="bg-gray-200    md:rounded-xl p-8  mx-auto ">
-
-        <%= form_for(@user, url: update_profile_path, method: :patch, html: { multipart: true }) do |f| %>
-
-  
-  <!-- Avatar Upload -->
-  <div class="mx-auto w-32 text-center">
-    <div class="w-32 h-32 group rounded-full cursor-pointer transition duration-500 bg-cover bg-center relative"
-      style="background-image: url('<%= @user.avatar_public_id.present? ? Cloudinary::Utils.cloudinary_url(@user.avatar_public_id, width: 150, height: 150, crop: :fill) : asset_path('amargupta.jpeg') %>');">
-
-      <div class="absolute inset-0 bg-black bg-opacity-30 rounded-full"></div>
-    </div>
-    <%= f.file_field :avatar, class: "mt-2" %>
-  </div>
+<body class="flex">
 
   <div>
-    <h2 class="text-xl md:text-2xl font-semibold mb-1">Profile</h2>
-    <p class="text-sm text-gray-400">Update your profile information.</p>
+    <%= render 'devise/shared/navbar' %>
   </div>
 
-  <!-- Profile Form -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex flex-row mt-4">
-    <div>
-      <%= f.label :first_name, "First Name", class: "block text-sm mb-1" %>
-      <%= f.text_field :first_name, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
-    </div>
-    <div>
-      <%= f.label :last_name, "Last Name", class: "block text-sm mb-1" %>
-      <%= f.text_field :last_name, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
-    </div>
+  <!-- Main Content -->
+  <div id="main-content" class="flex-1 transition-all duration-300 mt-[15%] md:mt-[10%]">
 
-    <div>
-      <%= f.label :email, "Email", class: "block text-sm mb-1" %>
-      <%= f.email_field :email, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
-    </div>
-    <div>
-      <%= f.label :phone_number, "Phone Number", class: "block text-sm mb-1" %>
-      <%= f.telephone_field :phone_number, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
-    </div>
+    <div class="w3-container">
+      <div class="rounded-xl flex flex-col">
 
-    <!-- Password Update -->
-    <div>
-      <%= f.label :password, "New Password", class: "block text-sm mb-1" %>
-      <%= f.password_field :password, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
-    </div>
-    <div>
-      <%= f.label :password_confirmation, "Confirm Password", class: "block text-sm mb-1" %>
-      <%= f.password_field :password_confirmation, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
-    </div>
-  </div>
+        <div class="bg-gray-200 md:rounded-xl p-8 mx-auto">
 
-  <div class="mt-4">
-    <%= f.submit "Update Profile", class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
-  </div>
+          <%= form_for(@user, url: update_profile_path, method: :patch, html: { multipart: true }) do |f| %>
 
-<% end %>
+            <!-- Avatar Upload -->
+            <div class="mx-auto w-32 text-center">
+              <div class="w-32 h-32 group rounded-full cursor-pointer transition duration-500 bg-cover bg-center relative"
+                style="background-image: url('<%= @user.avatar_public_id.present? ? Cloudinary::Utils.cloudinary_url(@user.avatar_public_id, width: 150, height: 150, crop: :fill) : asset_path('amargupta.jpeg') %>');">
+                <div class="absolute inset-0 bg-black bg-opacity-30 rounded-full"></div>
+              </div>
+              <%= f.file_field :avatar, class: "mt-2" %>
+            </div>
 
+            <div>
+              <h2 class="text-xl md:text-2xl font-semibold mb-1">Profile</h2>
+              <p class="text-sm text-gray-400">Update your profile information.</p>
+            </div>
 
-       
+            <!-- Profile Form -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex flex-row mt-4">
+              <div>
+                <%= f.label :first_name, "First Name", class: "block text-sm mb-1" %>
+                <%= f.text_field :first_name, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
+              </div>
+              <div>
+                <%= f.label :last_name, "Last Name", class: "block text-sm mb-1" %>
+                <%= f.text_field :last_name, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
+              </div>
+
+              <div>
+                <%= f.label :email, "Email", class: "block text-sm mb-1" %>
+                <%= f.email_field :email, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
+              </div>
+              <div>
+                <%= f.label :phone_number, "Phone Number", class: "block text-sm mb-1" %>
+                <%= f.telephone_field :phone_number, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
+              </div>
+
+              <!-- Password Update -->
+              <div>
+                <%= f.label :password, "New Password", class: "block text-sm mb-1" %>
+                <%= f.password_field :password, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
+              </div>
+              <div>
+                <%= f.label :password_confirmation, "Confirm Password", class: "block text-sm mb-1" %>
+                <%= f.password_field :password_confirmation, class: "text-black w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" %>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <%= f.submit "Update Profile", class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
+            </div>
+
+          <% end %>
+
+        </div>
+
       </div>
-
-      </div>
     </div>
-  </div>
-
-
-  
   </div>
 
 </body>

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :manage_users, only: [ :index, :create, :new ] do
+  resources :manage_users, only: [ :index, :create, :new , :destroy] do
     member do
       patch "toggle_status", to: "manage_users#toggle_status"
     end

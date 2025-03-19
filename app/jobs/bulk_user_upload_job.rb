@@ -25,7 +25,7 @@ class BulkUserUploadJob < ApplicationJob
             name: row[0].value,
             email: row[1].value,
             phone_number: row[2].value,
-            password: Devise.friendly_token[0, 10]  # Auto-generate password
+            password: Devise.friendly_token[0, 10]  # Auto-generate password by devise 22 characters long
           )
           if user.save
             users << user
@@ -39,6 +39,7 @@ class BulkUserUploadJob < ApplicationJob
     ensure
       # Sends an email report to the admin after processing.
       AdminMailer.bulk_upload_status(admin_email, users.count, errors).deliver_later
+      # Deletes the file after the process completes.
       File.delete(file_path) if File.exist?(file_path) # Clean up the file after processing
     end
   end

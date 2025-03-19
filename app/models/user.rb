@@ -1,5 +1,6 @@
 # /home/hp/Desktop/auth2/devise_auth/app/models/user.rb
 class User < ApplicationRecord
+
   rolify
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
@@ -8,35 +9,30 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :phone_number, uniqueness: true, format: { with: /\A\d{10}\z/, message: "must be 10 digits" }
 
-  has_many :posts, dependent: :destroy  # Add this line
-  has_many :likes, dependent: :destroy
-  has_many :comments, through: :posts
+  has_many :posts, dependent: :destroy  #  A user can create multiple posts.
+  has_many :likes, dependent: :destroy  #  A user can like multiple posts or comments.
+  has_many :comments, through: :posts   #  A user can comment on multiple posts.
+  # has_one_attached :avatar
 
-  # Default role assignment
   after_create :assign_default_role
   after_create :upload_avatar
 
+
   def assign_default_role
-    self.add_role(:user) if self.roles.blank? # Assign "user" role by default
+    self.add_role(:user) if self.roles.blank?  # Assign "user" role by default
   end
+  #If a user has no role, they get assigned "user" automatically.
+  
 
-  # after_update :upload_avatar, if: :avatar_changed?
-  # def avatar_changed?
-  #   avatar.present? && avatar != avatar_was
-  # end
-
-  # has_one_attached :avatar
+  # Avatar Upload (Cloudinary)
+  
   attr_accessor :avatar
-  # The avatar is stored in attr_accessor :avatar, which means it's not saved directly in the database.
-
-  # after_save :upload_avatar, if: -> { avatar.present? }
-
- 
   def avatar_url
+    # If an avatar is uploaded, fetch it from Cloudinary.
     if avatar_public_id.present?
       Cloudinary::Utils.cloudinary_url(avatar_public_id, width: 150, height: 150, crop: :fill)
     else
-  #asset_path("imageavatar.jpg") # Default image if no avatar is uploaded
+      #asset_path("imageavatar.jpg") # Default image if no avatar is uploaded
       ActionController::Base.helpers.asset_path("imageavatar.jpg")
     end
   end

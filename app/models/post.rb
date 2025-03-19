@@ -1,9 +1,7 @@
 # app/models/post.rb
 class Post < ApplicationRecord
-  belongs_to :user
-  # has_many :comments, dependent: :destroy
-  has_many :comments, -> { order(created_at: :desc) }, dependent: :destroy
-  has_many :likes, as: :likeable, dependent: :destroy
-
+  belongs_to :user       # A post must belong to a user.
+  has_many :comments, -> { order(created_at: :desc) }, dependent: :destroy  #A post can have multiple comments.
+  has_many :likes, as: :likeable, dependent: :destroy   # A post can be liked (Polymorphic Association).
   validates :description, presence: true
 end

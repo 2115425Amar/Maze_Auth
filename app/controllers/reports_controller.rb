@@ -13,6 +13,7 @@ class ReportsController < ApplicationController
     format = params[:format] || "csv"
 
     case params[:report_type]
+      # 📋 all_users: All users with post, comment, and like counts
     when "all_users"
       users = User.find_by_sql("
         SELECT users.id, users.first_name, users.last_name, users.email,
@@ -28,6 +29,7 @@ class ReportsController < ApplicationController
       filename = "all_users_report.#{format}"
       data = generate_users_report(users, format)
 
+    # 🔥 active_users: Users with more than 10 posts
     when "active_users"
       users = User.find_by_sql("
         SELECT users.id, users.first_name, users.last_name, users.email,
@@ -43,7 +45,8 @@ class ReportsController < ApplicationController
       ")
       filename = "active_users_report.#{format}"
       data = generate_users_report(users, format)
-
+    
+    # 📝 postwise: Posts with comment and like counts
     when "postwise"
       posts = Post.find_by_sql("
         SELECT posts.id, posts.description,
@@ -73,7 +76,8 @@ class ReportsController < ApplicationController
   def check_admin
     redirect_to root_path, alert: "Access denied" unless current_user.has_role?(:admin)
   end
-
+  
+  # Converts user details into CSV or Excel.
   def generate_users_report(users, format)
     return unless users.present?
     # Rails.logger.info "Generating Users Report - Total Users: #{users.count}"

@@ -10,7 +10,6 @@ class ManageUsersController < ApplicationController
     @user = User.new
   end
 
-
   def create
     @user = User.new(user_params)
     generated_password = SecureRandom.hex(8)  # Generate a random password
@@ -47,7 +46,6 @@ class ManageUsersController < ApplicationController
     user.update(active: !user.active?)
 
     redirect_to manage_users_path, notice: "User status updated!"
-
   end
 
 

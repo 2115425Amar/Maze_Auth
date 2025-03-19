@@ -225,9 +225,109 @@ Tracks **likes on posts and comments** (Polymorphic Association).
 
 ---
 
-### **🚀 Now you can easily visualize how tables are linked in the database. Let me know if you need any modifications or queries!** 🚀
 
 
+
+
+### **🔍 Explanation of SQL Queries in `download_report` Method**
+
+Your `download_report` method generates different types of reports (`all_users`, `active_users`, `postwise`) using **raw SQL queries** via `find_by_sql`. Let's break them down.
+
+---
+
+## **1️⃣ Query for "all_users" Report**
+```sql
+SELECT users.id, users.first_name, users.last_name, users.email,
+       COUNT(DISTINCT posts.id) AS posts_count,
+       COUNT(DISTINCT comments.id) AS comments_count,
+       COUNT(DISTINCT likes.id) AS likes_count
+FROM users
+LEFT JOIN posts ON posts.user_id = users.id
+LEFT JOIN comments ON comments.user_id = users.id
+LEFT JOIN likes ON likes.user_id = users.id
+GROUP BY users.id;
+```
+### **📌 Explanation:**
+- Retrieves **all users** along with their **post count, comment count, and like count**.
+- `LEFT JOIN` is used to include users **even if they have no posts, comments, or likes**.
+- `COUNT(DISTINCT posts.id)`: Counts unique posts created by each user.
+- `COUNT(DISTINCT comments.id)`: Counts unique comments made by each user.
+- `COUNT(DISTINCT likes.id)`: Counts unique likes made by each user.
+- `GROUP BY users.id`: Groups results by user to calculate counts per user.
+
+### **🛠 Example Output:**
+| id  | first_name | last_name | email          | posts_count | comments_count | likes_count |
+|-----|-----------|----------|---------------|-------------|----------------|-------------|
+| 101 | John      | Doe      | john@xyz.com  | 5           | 10             | 15          |
+| 102 | Alice     | Smith    | alice@xyz.com | 0           | 2              | 3           |
+
+---
+
+## **2️⃣ Query for "active_users" Report**
+```sql
+SELECT users.id, users.first_name, users.last_name, users.email,
+       COUNT(DISTINCT posts.id) AS posts_count,
+       COUNT(DISTINCT comments.id) AS comments_count,
+       COUNT(DISTINCT likes.id) AS likes_count
+FROM users
+LEFT JOIN posts ON posts.user_id = users.id
+LEFT JOIN comments ON comments.user_id = users.id
+LEFT JOIN likes ON likes.user_id = users.id
+GROUP BY users.id
+HAVING COUNT(posts.id) > 10;
+```
+### **📌 Explanation:**
+- **Same as "all_users" query**, but includes only users who have **more than 10 posts**.
+- `HAVING COUNT(posts.id) > 10`: Filters users who have posted **more than 10 times**.
+- `HAVING` is used because **aggregate functions (`COUNT()`) cannot be used with `WHERE`**.
+
+### **🛠 Example Output:**
+| id  | first_name | last_name | email          | posts_count | comments_count | likes_count |
+|-----|-----------|----------|---------------|-------------|----------------|-------------|
+| 101 | John      | Doe      | john@xyz.com  | 15          | 20             | 25          |
+| 104 | Sarah     | Lee      | sarah@xyz.com | 12          | 5              | 10          |
+
+👉 **Users with less than 10 posts are excluded!**
+
+---
+
+## **3️⃣ Query for "postwise" Report**
+```sql
+SELECT posts.id, posts.description,
+       COUNT(DISTINCT comments.id) AS comments_count,
+       COUNT(DISTINCT likes.id) AS likes_count
+FROM posts
+LEFT JOIN comments ON comments.post_id = posts.id
+LEFT JOIN likes ON likes.likeable_id = posts.id AND likes.likeable_type = 'Post'
+GROUP BY posts.id;
+```
+### **📌 Explanation:**
+- Retrieves all **posts** along with their **comment count and like count**.
+- `LEFT JOIN comments ON comments.post_id = posts.id`: Joins comments related to the post.
+- `LEFT JOIN likes ON likes.likeable_id = posts.id AND likes.likeable_type = 'Post'`:
+  - Ensures that **only likes related to posts** (not comments) are counted.
+- `GROUP BY posts.id`: Groups by post ID.
+
+### **🛠 Example Output:**
+| id  | description       | comments_count | likes_count |
+|-----|------------------|---------------|------------|
+| 201 | "Hello World"    | 5             | 10         |
+| 202 | "My First Post"  | 2             | 3          |
+
+---
+
+## **📢 Summary of Key Concepts**
+| SQL Feature         | Purpose |
+|---------------------|---------|
+| **`LEFT JOIN`**    | Includes records even if there's no match in the joined table. |
+| **`COUNT(DISTINCT column)`** | Counts unique records, avoiding duplicates. |
+| **`GROUP BY`**      | Groups rows based on a column to apply aggregate functions (`COUNT`, `SUM`). |
+| **`HAVING`**        | Filters groups based on aggregate values (like `COUNT(posts.id) > 10`). |
+
+
+
+
+👉
 
 ### **Authentication (Devise)**
 1. **User Registration**:

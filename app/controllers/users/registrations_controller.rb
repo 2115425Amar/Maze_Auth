@@ -12,6 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
 
+
   def after_sign_up_path_for(resource)
     new_user_session_path # Redirects to the login page
   end
@@ -20,10 +21,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def send_welcome_email(user)
     begin
-      UserMailer.welcome_email(user).deliver_later
+      UserMailer.welcome_email(user).deliver_later  #Sends the email immediately.
     rescue RedisClient::CannotConnectError, Errno::ECONNREFUSED => e
       Rails.logger.error "Sidekiq is not running or Redis is unavailable: #{e.message}"
-      UserMailer.welcome_email(user).deliver_now # Fallback to synchronous email sending
+      UserMailer.welcome_email(user).deliver_now    #Enqueues the email to be sent asynchronously.  Adds the email job to a queue.
     end
   end
 

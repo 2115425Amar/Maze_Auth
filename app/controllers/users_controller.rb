@@ -18,15 +18,18 @@
       # Handle Avatar Upload
       if params[:user][:avatar].present?
         response = Cloudinary::Uploader.upload(params[:user][:avatar], folder: "avatars")
+      # If an avatar is present, it uploads the image to Cloudinary, storing it in the "avatars" folder.
         @user.update(avatar_public_id: response["public_id"])
       end
 
-      bypass_sign_in(@user) if params[:user][:password].present? # Keep user signed in after password update
+      bypass_sign_in(@user) if params[:user][:password].present? # bypass_sign_in(@user) ensures the user remains signed in without needing to log in again.
+
       # flash[:notice] = "Profile updated successfully"
       redirect_to profile_path
     else
       # flash[:alert] = "Failed to update profile"
       render :profile
+      # redirect_to profile_path (same as above)
     end
   end
 

@@ -6,4 +6,12 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(to: @user.email, subject: "Welcome to Our Platform!")
   end
+
+  def byadmin_welcome_email(user, password)
+    @user = user
+    @password = password
+    mail(to: @user.email, subject: 'Welcome to the Platform')
+  end
+
+
 end

@@ -7,9 +7,11 @@ class BulkUserUploadJob < ApplicationJob
 
     begin
       case File.extname(file_path)
+        # Iterates through each row and creates a new User with a randomly generated password.
       when ".csv"
         CSV.foreach(file_path, headers: true) do |row|
           user = User.new(row.to_hash.merge(password: Devise.friendly_token[0, 10]))
+          # Stores successfully created users and logs errors for failed ones.
           if user.save
             users << user
           else
@@ -35,6 +37,7 @@ class BulkUserUploadJob < ApplicationJob
     rescue => e
       errors << { error: "Exception raised: #{e.message}" }
     ensure
+      # Sends an email report to the admin after processing.
       AdminMailer.bulk_upload_status(admin_email, users.count, errors).deliver_later
       File.delete(file_path) if File.exist?(file_path) # Clean up the file after processing
     end

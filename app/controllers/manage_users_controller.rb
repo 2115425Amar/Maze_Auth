@@ -10,18 +10,28 @@ class ManageUsersController < ApplicationController
     @user = User.new
   end
 
+
   def create
     @user = User.new(user_params)
-    @user.password = SecureRandom.hex(8)
-
+    generated_password = SecureRandom.hex(8)  # Generate a random password
+    @user.password = generated_password
+  
     if @user.save
       assign_roles(@user)
+
+      begin
+        UserMailer.byadmin_welcome_email(@user, generated_password).deliver_later  #Sends the email immediately.
+      rescue RedisClient::CannotConnectError, Errno::ECONNREFUSED => e
+        Rails.logger.error "Sidekiq is not running or Redis is unavailable: #{e.message}"
+        UserMailer.byadmin_welcome_email(@user, generated_password).deliver_now    #Enqueues the email to be sent asynchronously.  Adds the email job to a queue.
+      end
+
       redirect_to manage_users_path, notice: "User created successfully!"
     else
-      # flash.now[:alert] = "User creation failed!"
       render :new, status: :unprocessable_entity
     end
   end
+  
 
   def destroy
     user = User.find(params[:id])
@@ -32,15 +42,12 @@ class ManageUsersController < ApplicationController
     end
   end
 
-
   def toggle_status
     user = User.find(params[:id])
     user.update(active: !user.active?)
-    # respond_to do |format|
-    #   format.html { redirect_to manage_users_path, notice: "User status updated." }
-    #   format.js   # For AJAX support (optional)
-    # end
+
     redirect_to manage_users_path, notice: "User status updated!"
+
   end
 
 
@@ -48,11 +55,12 @@ class ManageUsersController < ApplicationController
   def upload
   end
 
+
   def upload_users
     file = params[:file]
     if file.present?
       if file.content_type == "text/csv" || file.content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        # Save the uploaded file to a persistent location
+        # Save the uploaded file to a persistent location Saves the file temporarily in the tmp directory.
         saved_file_path = Rails.root.join("tmp", "bulk_upload_#{Time.now.to_i}_#{file.original_filename}")
         File.open(saved_file_path, "wb") { |f| f.write(file.read) }
 
@@ -66,6 +74,7 @@ class ManageUsersController < ApplicationController
       redirect_to upload_manage_users_path, alert: "No file selected."
     end
   end
+
 
   #   The uploaded file is now saved to the /tmp folder with a unique filename.
   # ✅ File.open ensures the file data is securely written before passing it to Sidekiq.
@@ -85,4 +94,5 @@ class ManageUsersController < ApplicationController
   def authorize_admin
     redirect_to root_path, alert: "Access denied." unless current_user.admin?
   end
+
 end

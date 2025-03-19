@@ -26,7 +26,8 @@ module DeviseAuth
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
+    
+    # Tell Rails to use Sidekiq for Active Job in config/application.rb:
     config.active_job.queue_adapter = :sidekiq
 
   end

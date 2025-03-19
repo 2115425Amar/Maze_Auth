@@ -8,10 +8,10 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      redirect_to post_path(@post), notice: "Comment added!"
-    else
+      # redirect_to post_path(@post), notice: "Comment added!"
+    # else
       # flash[:alert] = "Comment could not be created"
-      redirect_to root_path
+      redirect_to posts_path
     end
 
    

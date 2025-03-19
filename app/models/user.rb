@@ -14,7 +14,6 @@ class User < ApplicationRecord
 
   # Default role assignment
   after_create :assign_default_role
-  # after_create :send_welcome_email
   after_create :upload_avatar
 
   def assign_default_role
@@ -28,16 +27,21 @@ class User < ApplicationRecord
 
   # has_one_attached :avatar
   attr_accessor :avatar
+  # The avatar is stored in attr_accessor :avatar, which means it's not saved directly in the database.
+
   # after_save :upload_avatar, if: -> { avatar.present? }
 
-  # Methods
+ 
   def avatar_url
     if avatar_public_id.present?
       Cloudinary::Utils.cloudinary_url(avatar_public_id, width: 150, height: 150, crop: :fill)
     else
-      "amargupta.jpeg" # Default image if no avatar is uploaded
+  #asset_path("imageavatar.jpg") # Default image if no avatar is uploaded
+      ActionController::Base.helpers.asset_path("imageavatar.jpg")
     end
   end
+  
+  
 
   def name
     "#{first_name} #{last_name}"
@@ -58,7 +62,7 @@ private
 
     # Rails.logger.info "Uploading avatar..."
     response = Cloudinary::Uploader.upload(avatar, folder: "avatars")
-    self.update_column(:avatar_public_id, response["public_id"])
+    self.update_column(:avatar_public_id, response["public_id"])  # Save public ID in DB
 
     Rails.logger.info "Avatar uploaded successfully: #{response["public_id"]}"  
   rescue Cloudinary::Error => e

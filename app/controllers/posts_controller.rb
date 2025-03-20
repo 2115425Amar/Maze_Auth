@@ -57,7 +57,8 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to posts_path, notice: "Post created successfully."
     else
-      render :new
+      # render :new
+      redirect_to posts_path, alert: "post content can't be blank"
     end
   end
 

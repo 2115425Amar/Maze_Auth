@@ -7,14 +7,18 @@ class CommentsController < ApplicationController
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
 
-    if @comment.save
-      # redirect_to post_path(@post), notice: "Comment added!"
-    # else
-      # flash[:alert] = "Comment could not be created"
-      redirect_to posts_path
-    end
 
-   
+    if @comment.save
+      # Check the referer to determine where to redirect
+      if request.referer.include?(post_path(@post))
+        redirect_to post_path(@post), notice: "Comment added!"
+      else
+        redirect_to posts_path, notice: "Comment added!"
+      end
+    else
+      # flash[:alert] = "Comment could not be created"
+      posts_path
+    end
   end
 
   private

@@ -12,10 +12,10 @@ class LikesController < ApplicationController
     end
 
     # redirect_back fallback_location: root_path
-    respond_to do |format|
-      format.html { redirect_back(fallback_location: root_path) }
-      format.js   # This will trigger a JavaScript response
-    end
+    # respond_to do |format|
+    #   format.html { redirect_back(fallback_location: root_path) }
+    #   format.js   # This will trigger a JavaScript response
+    # end
   end
 
   private
@@ -27,4 +27,5 @@ class LikesController < ApplicationController
       Comment.find(params[:comment_id])
     end
   end
+  
 end

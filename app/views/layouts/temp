@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,9 +28,7 @@
 
       <div class="w3-container">
          <div class="rounded-xl bg-gray-100">
-            <div class="container mx-2 md:p-6">
-                   <%# link_to "Back to Posts", posts_path, class: "text-blue-500 hover:text-blue-700  inline-block" %>
-
+            <div class="container mx-auto p-6">
                <h1 class="text-xl">List of Users</h1>
                <div class="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">
                   <div class="flex justify-end gap-4">
@@ -63,14 +62,14 @@
                </div>
 
                <div class="mx-4">
-                  <table class="w-full  shadow-md md:p-4 md:mt-4 rounded-lg ">
+                  <table class="w-full  shadow-md p-4 md:mt-4 rounded-lg ">
                      <tbody class="text-black text-sm font-light">
                         <% @users.each do |user| %>
                            <% unless user == current_user %>
                               <tr class="border-b border-gray-200 hover:bg-gray-100 mb-4 rounded-lg bg-white shadow-lg">
-                                 <td class="py-3 px-6  flex items-center text-md ">
+                                 <td class="py-3 px-6  flex items-center text-md">
                                     <%= image_tag user.avatar_url, class: "w-10 h-10 rounded-full mr-3 hover:opacity-80 transition-opacity" %>
-                                    <div class="<%= user.active? ? 'text-green-500' : 'text-red-500'  %>">●</div>
+                                    <div class="<%= user.active? ? 'text-green-500' : 'text-red-500' %>">●</div>
                                     &nbsp; <%= user.first_name %> <%= user.last_name %>
                                  </td>
 
@@ -125,14 +124,14 @@
                      </tbody>
                   </table>
                </div>
-               <%# paginate @users %>
+               <%= paginate @users %>
             </div>
          </div>
       </div>
    </div>
 
    <!-- Flash Message (Centered at Bottom) -->
-   <div class="fixed bottom-5 w-[84%]">
+   <div class="fixed bottom-5 w-[80%] ml-12 left-1/2 transform -translate-x-1/2 text-center z-50">
       <div id="flash-messages" class="text-center">
          <% if flash[:notice] %>
             <div class="bg-green-200 text-green-800 px-4 py-2 rounded-lg shadow-md">

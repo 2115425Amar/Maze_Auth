@@ -10,8 +10,9 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy  #  A user can create multiple posts.
   has_many :likes, dependent: :destroy  #  A user can like multiple posts or comments.
-  has_many :comments, through: :posts   #  A user can comment on multiple posts.
-  #  A user can comment on multiple posts.
+  has_many :comments, dependent: :destroy    #  A user can comment on multiple posts.
+  # has_many :comments, through: :posts   #  A user can comment on multiple posts.
+
   # has_one_attached :avatar
 
   after_create :assign_default_role

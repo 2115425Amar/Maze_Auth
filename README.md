@@ -2,7 +2,9 @@
 
 
 ![alt text](landingPage.png)
+-------------------------------------
 ![alt text](register.png)
+------------------------------------
 ![alt text](login.png)
 ![alt text](forgotPassword.png)
 ![alt text](resetpassword.png)
@@ -21,16 +23,27 @@
 
 <!-- Mobile View -->
 ![alt text](<Screenshot 2025-03-21 122551.png>)
+
 ![alt text](<Screenshot 2025-03-21 122606.png>)
+
 ![alt text](<Screenshot 2025-03-21 122626.png>)
+
 ![alt text](<Screenshot 2025-03-21 122708.png>)
+
 ![alt text](<Screenshot 2025-03-21 122815.png>)
+
 ![alt text](<Screenshot 2025-03-21 122826.png>)
+
 ![alt text](<Screenshot 2025-03-21 123328.png>)
+
 ![alt text](<Screenshot 2025-03-21 123924.png>)
+
 ![alt text](<Screenshot 2025-03-21 125613.png>)
+
 ![alt text](<Screenshot 2025-03-21 124447.png>)
+
 ![alt text](<Screenshot 2025-03-21 124918.png>)
+
 ![alt text](<Screenshot 2025-03-21 124939.png>)
 
 

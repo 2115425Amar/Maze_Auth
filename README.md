@@ -6,18 +6,31 @@
 ![alt text](register.png)
 ------------------------------------
 ![alt text](login.png)
+------------------------------------
 ![alt text](forgotPassword.png)
+-------------------------------------
 ![alt text](resetpassword.png)
+-----------------------------------
 ![alt text](post-user.png)
+-----------------------------------
 ![alt text](<Screenshot (243).png>)
+----------------------------------
 ![alt text](update.png)
+------------------------------------
 ![alt text](post-admin.png)
+------------------------------------
 ![alt text](manageuser-index.png)
+------------------------------------
 ![alt text](uploaduser.png)
+-------------------------------------
 ![alt text](createuserby-admin.png)
+--------------------------------------
 ![alt text](reports.png)
+----------------------------------
 ![alt text](show-post.png)
+-----------------------------
 ![alt text](edit-post.png)
+---------------------------------
 
 
 

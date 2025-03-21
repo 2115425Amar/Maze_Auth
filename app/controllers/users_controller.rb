@@ -18,7 +18,7 @@
       # Handle Avatar Upload
       if params[:user][:avatar].present?
         response = Cloudinary::Uploader.upload(params[:user][:avatar], folder: "avatars")
-      # If an avatar is present, it uploads the image to Cloudinary, storing it in the "avatars" folder.
+        # If an avatar is present, it uploads the image to Cloudinary, storing it in the "avatars" folder.
         @user.update(avatar_public_id: response["public_id"])
       end
 
@@ -41,7 +41,7 @@
   def report_users
     @users = User.page(params[:page]).per(10)
   end
- 
+
 
   private
 

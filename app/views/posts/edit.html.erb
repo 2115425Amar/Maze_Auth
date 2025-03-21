@@ -5,21 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
-<body>
 
-  <div>
+
+  
+<body class="flex">
+
+    <div >
     <%= render 'devise/shared/navbar' %>
   </div>
+
+
 
 <div id="main">
   <!-- NavBar -->
   
 
   <div class="w3-container">
-    <div class="bg-gray-200 p-2 md:p-4 md:m-6 rounded-xl mt-[20%] md:mt-[10%]">
+    <div class="bg-gray-200 p-2 md:p-4 md:m-6 rounded-xl mt-[30%]  md:mt-[10%]">
 
     
-     <main class="flex flex-col gap-4 bg-gray-200 rounded-2xl px-2 py-4 md:px-8 md:py-8">
+     <main class="flex flex-col gap-4 bg-gray-200 rounded-2xl md:px-2 py-4 md:px-8 md:py-8">
   <%= form_with model: @post, local: true do |form| %>
     <div class="flex flex-col items-center justify-center py-4 px-2 md:px-8 md:py-8 bg-white rounded-2xl">
       <div class="flex flex-col gap-y-5 w-full px-2">
@@ -66,7 +71,7 @@
           </div>
 
           <div>
-            <%= form.submit "Update", class: "w-full bg-indigo-600 hover:bg-indigo-800 text-white py-3 md:px-8 rounded-lg text-xl font-medium hover:cursor-pointer" %>
+            <%= form.submit "Update", class: " w-[50%] md:w-full bg-indigo-600 hover:bg-indigo-800 text-white py-3 md:px-8 rounded-lg text-xl font-medium hover:cursor-pointer" %>
           </div>
         </div>
 

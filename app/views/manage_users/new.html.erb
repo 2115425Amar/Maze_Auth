@@ -3,9 +3,11 @@
   
       <nav class="flex  md:py-2 md:mx-4">
          <div class="flex w-full md:px-6 justify-between items-center">
+           <%= link_to profile_path do %>
             <div class="flex gap-4 p-3 items-center">
                <p class="text-1xl md:text-3xl font-serif font-semibold text-gray-600">Create User</p>
             </div>
+            <% end %>
 
             <div class="flex gap-4 items-center">
               <%= image_tag current_user.avatar_url, class: "w-6 h-6 md:w-10 md:h-10 rounded-full" %>
@@ -21,10 +23,6 @@
  
   <div id="main-content" class="flex-1 p-3 md:p-6 transition-all duration-300" >
 
-  
-
-    
-
     <!-- Main Content -->
     <div class="w3-container">
       <div class="rounded-xl bg-gray-100 h-full">
@@ -32,7 +30,7 @@
 
         <div class="md:p-4  md:m-6 rounded-xl">
           <div class="md:p-6 rounded-lg md:bg-gray-200 md:shadow-lg md:w-[80%] md:m-auto">
-            <%= form_with model: @user, url: manage_users_path, method: :post, class: "space-y-10 ml-4" do |f| %>
+            <%= form_with model: @user, url: manage_users_path, method: :post, class: "space-y-6 md:space-y-10 ml-4" do |f| %>
 
              <%= link_to "Back to Users", manage_users_path, class: "text-blue-500 hover:text-blue-700 md:mb-4 inline-block" %>
 
@@ -70,7 +68,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 text-right">
+              <div class="mt-6 mr-2 text-right">
                 <%= f.submit "Create User", class: "bg-blue-500 text-white px-6 py-2 rounded-2xl hover:bg-blue-600 transition" %>
               </div>
             <% end %>

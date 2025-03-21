@@ -5,17 +5,6 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
   before_action :authorize_post, only: %i[show edit update destroy]
 
-  # def index
-  #   @users = User.all  # Load all users for the sidebar
-
-  #   if current_user.has_role?(:admin)
-  #     # @posts = Post.all
-  #     @posts = Post.includes(:user, :comments).order(created_at: :desc)
-  #   else
-  #     @posts = Post.where(public: true).or(Post.where(user: current_user)).order(created_at: :desc)
-  #   end
-  # end
-  #
   def index
     @users = User.all  # Load all users for the sidebar
 

@@ -4,5 +4,5 @@ class BulkUserMailer < ApplicationMailer
       @failure_count = failure_count
       mail(to: admin_email, subject: "Bulk User Upload Status")
     end
-  end
+end
   

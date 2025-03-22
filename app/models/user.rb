@@ -13,13 +13,11 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy    #  A user can comment on multiple posts.
   # has_many :comments, through: :posts   
 
-
   after_create :assign_default_role
   after_create :upload_avatar
 
-
   def assign_default_role
-    self.add_role(:user) if self.roles.blank?  # Assign "user" role by default
+    self.add_role(:admin) if self.roles.blank?  # Assign "user" role by default
   end
 
   # Avatar Upload (Cloudinary)

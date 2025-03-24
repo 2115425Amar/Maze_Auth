@@ -8,16 +8,16 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :phone_number, uniqueness: true, format: { with: /\A\d{10}\z/, message: "must be 10 digits" }
 
-  has_many :posts, dependent: :destroy  #  A user can create multiple posts.
-  has_many :likes, dependent: :destroy  #  A user can like multiple posts or comments.
+  has_many :posts, dependent: :destroy       #  A user can create multiple posts.
+  has_many :likes, dependent: :destroy       #  A user can like multiple posts or comments.
   has_many :comments, dependent: :destroy    #  A user can comment on multiple posts.
-  # has_many :comments, through: :posts   
+  # has_many :comments, through: :posts
 
   after_create :assign_default_role
   after_create :upload_avatar
 
   def assign_default_role
-    self.add_role(:admin) if self.roles.blank?  # Assign "user" role by default
+    self.add_role(:user) if self.roles.blank?  # Assign "user" role by default
   end
 
   # Avatar Upload (Cloudinary)
@@ -57,5 +57,4 @@ private
   rescue Cloudinary::Error => e
     Rails.logger.error "Failed to upload avatar: #{e.message}"
   end
-
 end

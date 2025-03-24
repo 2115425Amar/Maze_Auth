@@ -8,9 +8,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super do |user|
       if user.persisted?  # Only send email if user was successfully created
         send_welcome_email(user)
+        flash[:notice] = "Registration successful! Please check your email for a welcome message."
+      else
+        flash[:alert] = "There was a problem creating your account. Please try again."
       end
     end
   end
+
 
   def after_sign_up_path_for(resource)
     new_user_session_path # Redirects to the login page

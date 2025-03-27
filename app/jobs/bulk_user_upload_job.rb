@@ -10,6 +10,7 @@ class BulkUserUploadJob < ApplicationJob
       when ".csv"
         CSV.foreach(file_path, headers: true) do |row|
           password = Devise.friendly_token[0, 10] # Generate a random password
+          # Converts the CSV row into a hash and merges it with the generated password.
           user = User.new(row.to_hash.merge(password: password))
           if user.save
             users << user

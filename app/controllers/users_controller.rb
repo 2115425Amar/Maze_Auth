@@ -24,10 +24,10 @@
 
       bypass_sign_in(@user) if params[:user][:password].present? # bypass_sign_in(@user) ensures the user remains signed in without needing to log in again.
 
-      # flash[:notice] = "Profile updated successfully"
+      flash[:notice] = "Profile updated successfully"
       redirect_to profile_path
     else
-      # flash[:alert] = "Failed to update profile"
+      flash[:alert] = "Failed to update profile"
       render :profile
       # redirect_to profile_path (same as above)
     end

@@ -1,6 +1,5 @@
 # app/controllers/posts_controller.rb
 class PostsController < ApplicationController
-  # before_action :authenticate_user!, except: :index
   before_action :authenticate_user!
   before_action :set_post, only: %i[show edit update destroy]
   before_action :authorize_post, only: %i[show edit update destroy]
@@ -53,7 +52,6 @@ class PostsController < ApplicationController
 
 
 
-
   def update
     if @post.update(post_params)
       redirect_to posts_path, notice: "Post updated successfully."
@@ -61,7 +59,6 @@ class PostsController < ApplicationController
       render :edit
     end
   end
-
 
   def destroy
     if current_user.has_role?(:admin) || @post.user == current_user

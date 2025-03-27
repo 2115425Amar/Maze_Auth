@@ -1,7 +1,8 @@
 require "test_helper"
 
 class CommentsControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  test "should create comment" do
+    post comments_url, params: { comment: { content: "Nice post!" } }
+    assert_response :redirect
+  end
 end

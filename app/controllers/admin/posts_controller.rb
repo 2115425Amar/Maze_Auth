@@ -66,7 +66,6 @@ module Admin
     end
   end
 
-
     private
 
     def require_admin

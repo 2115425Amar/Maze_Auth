@@ -45,7 +45,7 @@ class ReportsController < ApplicationController
       ")
       filename = "active_users_report.#{format}"
       data = generate_users_report(users, format)
-    
+
     # 📝 postwise: Posts with comment and like counts
     when "postwise"
       posts = Post.find_by_sql("
@@ -69,14 +69,12 @@ class ReportsController < ApplicationController
     send_data data, filename: filename, type: file_type
   end
 
-
-
   private
 
   def check_admin
     redirect_to root_path, alert: "Access denied" unless current_user.has_role?(:admin)
   end
-  
+
   # Converts user details into CSV or Excel.
   def generate_users_report(users, format)
     return unless users.present?

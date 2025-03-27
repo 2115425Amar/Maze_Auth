@@ -1,11 +1,15 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Fixtures for Like model
+like_1:
+  user: user_1
+  likeable: post_1 (Post)
+  likeable_type: Post
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
 
-one:
-  user: one
-  likeable: one
-  likeable_type: Likeable
+like_2:
+  user: user_2
+  likeable: post_2 (Post)
+  likeable_type: Post
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
 
-two:
-  user: two
-  likeable: two
-  likeable_type: Likeable

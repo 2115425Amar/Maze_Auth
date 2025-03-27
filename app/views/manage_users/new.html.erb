@@ -1,6 +1,5 @@
 <body class="flex">
 
-  
       <nav class="flex  md:py-2 md:mx-4">
          <div class="flex w-full md:px-6 justify-between items-center">
            <%= link_to manage_users_path do %>
@@ -8,14 +7,12 @@
                <p class="text-1xl md:text-3xl font-serif font-semibold text-gray-600">Create User</p>
             </div>
             <% end %>
-
             <div class="flex gap-4 items-center">
               <%= image_tag current_user.avatar_url, class: "w-6 h-6 md:w-10 md:h-10 rounded-full" %>
                <div class="">
                   <h2 class="md:text-lg mb-1"><%= current_user.first_name %> <%= current_user.last_name %></h2>
                </div>
             </div>
-
          </div>
       </nav>
 

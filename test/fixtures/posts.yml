@@ -1,11 +1,14 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  description: MyText
-  user: one
-  public: false
 
-two:
-  description: MyText
-  user: two
-  public: false
+# Fixtures for Post model
+post_1:
+  user: user_1
+  description: "This is the first post."
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+post_2:
+  user: user_2
+  description: "This is the second post."
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>

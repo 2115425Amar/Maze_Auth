@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Devise.setup do |config|
-
   # config.secret_key = 'b6f3aad0651f44b5e24dffdcd681b58e692ae04d3f0ab86538da33404038a3a34eaa292695e4f3dd53dd807759aaf8689679bc99ab84c40d3867e71e83d16c1b'
 
   # ==> Controller configuration
@@ -9,7 +8,7 @@ Devise.setup do |config|
   # config.parent_controller = 'DeviseController'
 
 
-  config.mailer_sender = 'amar8601082@gmail.com'
+  config.mailer_sender = "amar8601082@gmail.com"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -21,7 +20,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # config.authentication_keys = [:email]
 
@@ -30,13 +29,10 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [:email]
-
-  config.strip_whitespace_keys = [:email]
-
+  config.case_insensitive_keys = [ :email ]
+  config.strip_whitespace_keys = [ :email ]
 
   # config.params_authenticatable = true
-
 
   # :database      = Support basic authentication with authentication key + password
   # config.http_authenticatable = false
@@ -49,13 +45,11 @@ Devise.setup do |config|
 
   # config.paranoid = true
 
-  config.skip_session_storage = [:http_auth]
+  config.skip_session_storage = [ :http_auth ]
 
   # config.clean_up_csrf_token_on_authentication = true
 
-
   # config.reload_routes = true
-
 
   config.stretches = Rails.env.test? ? 1 : 12
 
@@ -67,7 +61,6 @@ Devise.setup do |config|
 
   # Send a notification email when the user's password is changed.
   # config.send_password_change_notification = false
-
 
   # config.allow_unconfirmed_access_for = 2.days
 

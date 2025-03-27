@@ -4,7 +4,6 @@ require "rails/all"
 
 require 'cloudinary'
 
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -29,6 +28,5 @@ module DeviseAuth
     
     # Tell Rails to use Sidekiq for Active Job in config/application.rb:
     config.active_job.queue_adapter = :sidekiq
-
   end
 end

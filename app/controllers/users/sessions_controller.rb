@@ -4,12 +4,11 @@ class Users::SessionsController < Devise::SessionsController
       super
   end
 
-
     def create
       # Find the user by email
       user = User.find_by(email: params[:user][:email])
-  
-      if user && user.active? 
+
+      if user && user.active?
         # If the user is active and the password is valid, proceed with the login
         super
       else

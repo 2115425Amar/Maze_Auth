@@ -14,15 +14,15 @@ class ManageUsersController < ApplicationController
     @user = User.new(user_params)
     generated_password = SecureRandom.hex(8)  # Generate a random password
     @user.password = generated_password
-  
+
     if @user.save
       assign_roles(@user)
 
       begin
-        UserMailer.byadmin_welcome_email(@user, generated_password).deliver_later  #Sends the email immediately.
+        UserMailer.byadmin_welcome_email(@user, generated_password).deliver_later  # Sends the email immediately.
       rescue RedisClient::CannotConnectError, Errno::ECONNREFUSED => e
         Rails.logger.error "Sidekiq is not running or Redis is unavailable: #{e.message}"
-        UserMailer.byadmin_welcome_email(@user, generated_password).deliver_now    #Enqueues the email to be sent asynchronously.  Adds the email job to a queue.
+        UserMailer.byadmin_welcome_email(@user, generated_password).deliver_now    # Enqueues the email to be sent asynchronously.  Adds the email job to a queue.
       end
 
       redirect_to manage_users_path, notice: "User created successfully!"
@@ -30,7 +30,7 @@ class ManageUsersController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-  
+
 
   def destroy
     user = User.find(params[:id])
@@ -48,11 +48,9 @@ class ManageUsersController < ApplicationController
     redirect_to manage_users_path, notice: "User status updated!"
   end
 
-
   # Display the file upload form
   def upload
   end
-
 
   def upload_users
     file = params[:file]
@@ -92,5 +90,5 @@ class ManageUsersController < ApplicationController
   def authorize_admin
     redirect_to root_path, alert: "Access denied." unless current_user.admin?
   end
-
+  
 end

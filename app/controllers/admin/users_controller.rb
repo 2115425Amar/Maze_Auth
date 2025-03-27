@@ -71,4 +71,5 @@ module Admin
       params.require(:user).permit(:first_name, :last_name, :email, :phone_number, role_ids: [])
     end
   end
+
 end

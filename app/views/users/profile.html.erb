@@ -1,9 +1,8 @@
- <div>
-        <%= render 'devise/shared/navbar' %>
-    </div>
+<div>
+  <%= render 'devise/shared/navbar' %>
+</div>
     
 <div class="w-full min-h-screen flex items-center justify-center p-4 bg-gray-100 mt-[15%] md:mt-[2%]">
-
   <div class="w-full max-w-lg md:max-w-xl lg:max-w-2xl bg-white shadow-md rounded-xl p-6 md:p-8">
 
     <%= form_for(@user, url: update_profile_path, method: :patch, html: { multipart: true }) do |f| %>
@@ -20,7 +19,7 @@
       </div>
 
       <!-- Profile Header -->
-      <div class="text-center mt-4">
+      <div class=" mt-4">
         <h2 class="text-xl md:text-2xl font-semibold">Profile</h2>
         <p class="text-sm text-gray-500">Update your profile information.</p>
       </div>
@@ -65,4 +64,3 @@
 
   </div>
 </div>
-

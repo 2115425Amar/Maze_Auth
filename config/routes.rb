@@ -35,8 +35,9 @@ Rails.application.routes.draw do
   end
 
   root "home#index"
+  # post 'get_posts', to: 'home#index'
 
-     # idekiq Web UI (Dashboard)
+    # idekiq Web UI (Dashboard)
     mount Sidekiq::Web => "/sidekiq"
 end
 
@@ -97,3 +98,5 @@ end
 # Purpose: Used to define routes that act on the entire collection of the resource (not tied to a specific record).
 # URL Structure: Does not include the :id of the resource.
 # Example: If you have a posts resource, a collection route might be used to search all posts.
+  
+ 
